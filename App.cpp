@@ -4,7 +4,7 @@
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/VSE/eigen App.cpp Model.cpp Sensor.cpp
-#include <Eigen/Dense>
+#include "eigen/Eigen/Dense"
 
 using namespace std;
 
