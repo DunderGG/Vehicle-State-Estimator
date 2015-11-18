@@ -14,7 +14,7 @@ using namespace Eigen;
 
 int main()
 {
-<<<<<<< HEAD
+
 	float T = 2.0;
 
   	Model model(52.0, 0);
@@ -22,7 +22,7 @@ int main()
 
 	Matrix4f m = model.constVeloModel(5.9);
   	
-=======
+
  //  	Eigen::MatrixXd m(2,2);
  //  	m(0,0) = 3;
  //  	m(1,0) = 2.5;
@@ -49,7 +49,6 @@ int main()
 //
 //	Matrix4f m = model.constVeloModel(5.9);
 //  	cout << m << endl;
->>>>>>> fa00dd4df551e914fff124353ffb378c5a5266d0
 
 
   	return 0;
