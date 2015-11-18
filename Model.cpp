@@ -36,6 +36,10 @@ Model::Model(float v, float a)
 
 	cout << "Created a Model (V = " << velocity << " , A = " << acceleration << ")" << endl;
 }
+Model::~Model(void)
+{
+	cout << "Model is destroyed";
+}
 
 Matrix4f Model::constVeloModel(float T)
 {
@@ -44,15 +48,16 @@ Matrix4f Model::constVeloModel(float T)
   	     0,     1.0, 0,     0,
   	     0,     0,   1.0,   0,
   	     0,     0,   0,     1.0;
-
+	cout << m << endl;
 
   	Matrix2f A;
   	A << 0, 1.0,
   		 0, 0;
+	cout << A << endl;
 
   	RowVector2f H;
-  	A << 1.0, 0;
-
+  	H << 1.0, 0;
+	cout << H << endl;
 
   	return m;
 }

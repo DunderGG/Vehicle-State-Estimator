@@ -17,7 +17,7 @@ int main()
 
 
 	Matrix4f m = model.constVeloModel(5.9);
-  	cout << m << endl;
+  	
 
 
   	return 0;
