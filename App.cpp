@@ -14,12 +14,28 @@ using namespace Eigen;
 
 int main()
 {
- //  	Eigen::MatrixXd m(2,2);
- //  	m(0,0) = 3;
- //  	m(1,0) = 2.5;
- //  	m(0,1) = -1;
- //  	m(1,1) = m(1,0) + m(0,1);
- //  	cout << m << std::endl;
+
+	float T = 2.0;
+
+  	Model model(52.0, 0);
+
+
+	Matrix4f m = model.constVeloModel(5.9);
+  	
+
+//  Eigen::MatrixXd m(2,2);
+//  m(0,0) = 3;
+//  m(1,0) = 2.5;
+//  m(0,1) = -1;
+//  m(1,1) = m(1,0) + m(0,1);
+//  cout << m << std::endl;
+
+//	float T = 2.0;
+//
+//  Model model(52.0, 0);
+//
+//	Matrix4f m = model.constVeloModel(5.9);
+//  	cout << m << endl;
 
   	/* construct the Vehicle */
     Vehicle volvo (initVector(posX, posY), initVector(velX, velY), initVector(accelX, accelY));
@@ -29,18 +45,6 @@ int main()
     
     /* update (10 second)*/
     volvo.computePos(simDuration);
-
-//    return 0;
-//
-//    
-//	float T = 2.0;
-//
-//  	Model model(52.0, 0);
-//
-//
-//	Matrix4f m = model.constVeloModel(5.9);
-//  	cout << m << endl;
-
 
   	return 0;
 }
