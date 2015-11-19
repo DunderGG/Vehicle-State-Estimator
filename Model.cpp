@@ -47,10 +47,10 @@ Model::Model()
 	this->Ax = 0;
 	this->Ay = 0;
 
-	cout << "Model(P = " << x << " , " << y
-		<< " , V = " << Vx << " , " << Vy
-		<< " , A = " << Ax << " , " << Ay
-		<< ")" << endl << endl;
+	cout << "Model(P = "  << x << " , "  << y
+		 << " , V = "     << Vx << " , " << Vy
+		 << " , A = "     << Ax << " , " << Ay
+		 << ")"           << endl        << endl;
 }
 Model::Model(float x, float y, float Vx, float Vy, float Ax, float Ay)
 {
@@ -62,13 +62,27 @@ Model::Model(float x, float y, float Vx, float Vy, float Ax, float Ay)
 	this->Ay = Ay;
 
 	cout << "Model(P = " << x << " , " << y 
-		 << " , V = " << Vx << " , " << Vy
-		 << " , A = " << Ax << " , " << Ay
-		 << ")" << endl << endl;
+		 << " , V = "    << Vx << " , " << Vy
+		 << " , A = "    << Ax << " , " << Ay
+		 << ")"          << endl        << endl;
+}
+Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> acc)
+{
+	this->x = pos.first;
+	this->y = pos.second;
+	this->Vx = vel.first;
+	this->Vy = vel.second;
+	this->Ax = acc.first;
+	this->Ay = acc.second;
+
+	cout << "Model(P = " << pos.first << " , " << pos.second
+		<< " , V = "     << vel.first << " , " << vel.second
+		<< " , A = "     << acc.first << " , " << acc.second
+		<< ")"           << endl      << endl;
 }
 Model::~Model(void)
 {
-	cout << "Model is destroyed" << endl;
+	//cout << "Model is destroyed" << endl;
 }
 
 Matrix4f Model::constVeloModel(float T)
@@ -92,10 +106,12 @@ Matrix4f Model::constVeloModel(float T)
   	return m;
 }
 
-VectorXf Model::getStateVector(Vector2f pos, Vector2f vel, Vector2f acc)
+VectorXf Model::getStateVector()
 {
-	VectorXf v(pos.rows() + vel.rows() + acc.rows());
-	v << pos, vel, acc;
+	VectorXf v(this->getPosVector(this->getPos()).rows() +
+			   this->getVelVector(this->getVel()).rows() +
+			   this->getAccVector(this->getAcc()).rows());
+	v << this->getPosVector(this->getPos()), this->getVelVector(this->getVel()), this->getAccVector(this->getAcc());
 	return v;
 }
 

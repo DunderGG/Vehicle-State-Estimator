@@ -15,18 +15,19 @@ public:
 
 	Eigen::Matrix4f constVeloModel(float T);
 	
-	Eigen::VectorXf getStateVector(Eigen::Vector2f pos, Eigen::Vector2f vel, Eigen::Vector2f acc);
-	Eigen::Vector2f getPosVector(std::pair<float, float>);
-	Eigen::Vector2f getVelVector(std::pair<float, float>);
-	Eigen::Vector2f getAccVector(std::pair<float, float>);
+	Eigen::VectorXf getStateVector();
+	
 
 	Model();
+	Model(std::pair<float, float> pos, std::pair<float, float> vel, std::pair<float, float> acc);
 	Model(float x, float y, float Vx, float Vy, float Ax, float Ay);
 	~Model();
 
 private:
 	float x, y, Vx, Vy, Ax, Ay;
-
+	Eigen::Vector2f getPosVector(std::pair<float, float>);
+	Eigen::Vector2f getVelVector(std::pair<float, float>);
+	Eigen::Vector2f getAccVector(std::pair<float, float>);
 	friend std::ostream& operator<<(std::ostream&, const Model&);
 };
 

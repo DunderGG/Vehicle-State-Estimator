@@ -24,11 +24,9 @@ int main()
   	//cout << m << endl;
 
 
-	VectorXf v = model.getStateVector(model.getPosVector(model.getPos()), 
-		                              model.getVelVector(model.getVel()), 
-		                              model.getAccVector(model.getAcc()));
-	
-	cout << "State vector = " << v << endl;
+	VectorXf v = model.getStateVector();
+	cout << "State vector = " << endl << v << endl;
+
 //  Eigen::MatrixXd m(2,2);
 //  m(0,0) = 3;
 //  m(1,0) = 2.5;
