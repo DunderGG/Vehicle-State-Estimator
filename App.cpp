@@ -22,7 +22,6 @@ int main()
 
 	Matrix4f m = model.constVeloModel(5.9);
   	
-
 //  Eigen::MatrixXd m(2,2);
 //  m(0,0) = 3;
 //  m(1,0) = 2.5;
