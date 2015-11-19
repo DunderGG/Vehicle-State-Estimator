@@ -5,6 +5,15 @@
 using namespace Eigen;
 using namespace std;
 
+
+/*
+	Lecture notes: https://pingpong.chalmers.se/courseId/4620/node.do?id=2646568&ts=1447065023559&u=33775507
+	SPACE STATE REPRESENTATION: xdot = Ax + Bu
+	                               y = Cx + Du
+
+
+*/
+
 void Model::setVel(float Vx, float Vy)
 {
 	this->Vx = Vx;
@@ -88,21 +97,21 @@ Model::~Model(void)
 Matrix4f Model::constVeloModel(float T)
 {
 	Matrix4f m;
-  	m << 1.0,   0,   T,     0,
-  	     0,     1.0, 0,     0,
-  	     0,     0,   1.0,   0,
-  	     0,     0,   0,     1.0;
-	cout << m << endl;
+  	m << 1, 0, T, 0,
+  	     0, 1, 0, T,
+  	     0, 0, 1, 0,
+  	     0, 0, 0, 1;
 
+/*
   	Matrix2f A;
   	A << 0, 1.0,
   		 0, 0;
-	cout << A << endl;
+
 
   	RowVector2f H;
   	H << 1.0, 0;
-	cout << H << endl;
 
+*/
   	return m;
 }
 

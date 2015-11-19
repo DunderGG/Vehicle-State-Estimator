@@ -16,7 +16,7 @@ using namespace Eigen;
 int main()
 {
 
-	float T = 2.0;
+	float time = 2.0;
 	//Create a model, starting with:
 	//   Position = (0,0), Velocity = (10,5) and Acceleration = (0,0)
   	Model model(0,0, 10,5, 0,0);
@@ -26,6 +26,8 @@ int main()
 
 	VectorXf v = model.getStateVector();
 	cout << "State vector = " << endl << v << endl;
+
+	cout << model.constVeloModel(time);
 
 //  Eigen::MatrixXd m(2,2);
 //  m(0,0) = 3;
