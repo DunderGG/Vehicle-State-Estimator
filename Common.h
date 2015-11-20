@@ -15,7 +15,7 @@ using namespace Eigen;
 
 #define posX            0
 #define posY            0
-#define velX            20      // 72 kph
+#define velX            20      // in m/s or 72 kph
 #define velY            0       // 0 m/s
 #define accelX          5       // 5m/s
 #define accelY          0

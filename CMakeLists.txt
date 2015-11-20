@@ -7,6 +7,12 @@ project (vehicle-state-estimator)
 # add_subdirectory (eigen)
 
 set (SOURCE_FILES
+		Gaussian.h
+		Model.h 
+		Sensor.h
+		Common.h
+		Vehicle.h
+
 		App.cpp
 		Gaussian.cpp
 		Model.cpp
