@@ -1,9 +1,9 @@
 cmake_minimum_required (VERSION 2.8.9)
 
-#name the project
+# name the project
 project (vehicle-state-estimator)
 
-#add add_subdirectories
+# add add_subdirectories
 # add_subdirectory (eigen)
 
 set (SOURCE_FILES
@@ -20,8 +20,11 @@ set (SOURCE_FILES
 		Sensor.cpp
 		Test.cpp )
 
-#add executable
+# add executable
 add_executable (vehicle-state-estimator ${SOURCE_FILES})
 
-#link to libraries
+# set flag
+set( CMAKE_CXX_FLAGS "-Wall -m64 -O3 -std=gnu++11 " )
+
+# link to libraries
 #target_link_libraries(vse-kalman common)
