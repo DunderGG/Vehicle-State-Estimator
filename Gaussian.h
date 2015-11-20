@@ -9,6 +9,8 @@ public:
 	~Gaussian();
 
 	std::vector<std::pair<int, int>> getNoise(int x);
+
+	double computeGaussian (double mu, double sigma);
 private:
 
 
