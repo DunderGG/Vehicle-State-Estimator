@@ -94,14 +94,22 @@ Model::~Model(void)
 	//cout << "Model is destroyed" << endl;
 }
 
-Matrix4f Model::constVeloModel(float T)
+// T is the sampling rate we want to use.
+MatrixXf Model::constVeloModel(float T)
 {
-	Matrix4f m;
-  	m << 1, 0, T, 0,
-  	     0, 1, 0, T,
-  	     0, 0, 1, 0,
-  	     0, 0, 0, 1;
+	//Get the state vector containing position, velocity and acceleration
+	VectorXf stateVector = getStateVector();
+	
+	// WHY DOES IT CRASH HERE?
+	MatrixXf motionMatrix(6,6);
+	motionMatrix << 1, 0, T, 0, 0, 0,  // Position
+  					0, 1, 0, T, 0, 0,
+  					0, 0, 1, 0, 0, 0,  // Velocity
+  					0, 0, 0, 1, 0, 0,
+					0, 0, 0, 0, 0, 0,  // Acceleration
+					0, 0, 0, 0, 0, 0;
 
+	
 /*
   	Matrix2f A;
   	A << 0, 1.0,
@@ -112,7 +120,8 @@ Matrix4f Model::constVeloModel(float T)
   	H << 1.0, 0;
 
 */
-  	return m;
+
+  	return motionMatrix;
 }
 
 VectorXf Model::getStateVector()

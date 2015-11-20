@@ -13,7 +13,7 @@ public:
 	void setVel(float Vx, float Vy);
 	void setAcc(float Ax, float Ay);
 
-	Eigen::Matrix4f constVeloModel(float T);
+	Eigen::MatrixXf constVeloModel(float T);
 	
 	Eigen::VectorXf getStateVector();
 	

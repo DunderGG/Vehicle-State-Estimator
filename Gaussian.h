@@ -4,6 +4,14 @@
 class Gaussian
 {
 	
+public:
+	Gaussian();
+	~Gaussian();
+
+	std::vector<std::pair<int, int>> getNoise(int x);
+private:
+
+
 };
 
 

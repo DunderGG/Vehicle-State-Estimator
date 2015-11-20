@@ -15,26 +15,17 @@ using namespace Eigen;
 
 int main()
 {
+	//The time between each sampling
+	float samplingRate = 0.5;
 
-	float time = 2.0;
 	//Create a model, starting with:
+	//               x,y                x,y                      x,y 
 	//   Position = (0,0), Velocity = (10,5) and Acceleration = (0,0)
   	Model model(0,0, 10,5, 0,0);
-	//Matrix4f m = model.constVeloModel(5.9);
-  	//cout << m << endl;
+	
+	MatrixXf m = model.constVeloModel(samplingRate);
+	cout << m << endl;
 
-
-	VectorXf v = model.getStateVector();
-	cout << "State vector = " << endl << v << endl;
-
-	cout << model.constVeloModel(time);
-
-//  Eigen::MatrixXd m(2,2);
-//  m(0,0) = 3;
-//  m(1,0) = 2.5;
-//  m(0,1) = -1;
-//  m(1,1) = m(1,0) + m(0,1);
-//  cout << m << std::endl;
 
   	/* construct the Vehicle */
     //Vehicle volvo (initVector(posX, posY), initVector(velX, velY), initVector(accelX, accelY));

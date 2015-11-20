@@ -4,7 +4,7 @@
 class Sensor
 {
 public:
-	int randomData(int lowerBound, int upperBound);
+	int randomData();
 	int realData();
 };
 
