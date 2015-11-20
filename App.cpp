@@ -31,7 +31,7 @@ int main()
 	MatrixXf m = model.constVeloModel(samplingRate);
 	cout << m << endl;
 
-	vector<pair<int, int>> track = sensor.getTrack();
+	vector<pair<int, int> > track = sensor.getTrack();
 	for (pair<int,int> point : track)
 	{
 		gaussian.getNoise(point);

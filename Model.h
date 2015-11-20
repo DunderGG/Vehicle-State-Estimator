@@ -7,11 +7,7 @@ class Model
 {
 public:
 	std::pair<float, float> getPos();
-<<<<<<< HEAD
 	void setPos(float x, float y);
-=======
-	void Model::setPos(float x, float y);
->>>>>>> ac9d754e7859d5dee7aa5b8c1731a3f25f597b59
 	std::pair<float, float> getVel();
 	std::pair<float, float> getAcc();
 	void setVel(float Vx, float Vy);
@@ -20,7 +16,7 @@ public:
 	Eigen::MatrixXf constVeloModel(float T);
 	
 	Eigen::VectorXf getStateVector();
-	
+
 
 	Model();
 	Model(std::pair<float, float> pos, std::pair<float, float> vel, std::pair<float, float> acc);
