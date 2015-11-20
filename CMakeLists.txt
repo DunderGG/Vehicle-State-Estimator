@@ -8,7 +8,7 @@ project (vehicle-state-estimator)
 
 set (SOURCE_FILES
 		Common.h
-		Gaussiah.h
+		Gaussian.h
 		Model.h
 		Sensor.h
 		Test.h

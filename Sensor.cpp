@@ -20,7 +20,7 @@ int Sensor::randomData()
 }
 
 
-vector<pair<int, int>> Sensor::getTrack()
+vector<pair<int, int> > Sensor::getTrack()
 {
 	return track;
 }
