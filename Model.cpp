@@ -91,7 +91,7 @@ Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> 
 }
 Model::~Model(void)
 {
-	//cout << "Model is destroyed" << endl;
+	cout << "Destroying Model object" << endl;
 }
 
 // T is the sampling rate we want to use.
