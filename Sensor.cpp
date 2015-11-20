@@ -21,8 +21,6 @@ int Sensor::randomData()
 {
 	
 
-	
-
 	return 0;
 }
 

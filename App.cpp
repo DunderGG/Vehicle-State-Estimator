@@ -26,16 +26,7 @@ int main()
 	MatrixXf m = model.constVeloModel(samplingRate);
 	cout << m << endl;
 
-
-  	/* construct the Vehicle */
-    //Vehicle volvo (initVector(posX, posY), initVector(velX, velY), initVector(accelX, accelY));
-    
-    /* init the vehicle model */
-    //volvo.initMat();
-    
-    /* update (10 second), we will have 10/timestep samples of position */
-    //volvo.computePos(simDuration);
-
+	
 	
   	return 0;
 }
