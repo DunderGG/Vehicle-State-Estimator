@@ -9,7 +9,7 @@
 #include "Gaussian.h"
 
 // TO COMPILE WITH EIGEN
-//++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app
+//g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
 //#include "eigen/Eigen/Dense"
 
 using namespace std;
@@ -32,8 +32,11 @@ int main()
 	cout << m << endl;
 
 	vector<pair<int, int> > track = sensor.getTrack();
+	cout << "Track: " << endl;
+
 	for (pair<int,int> point : track)
 	{
+		cout << "X = " << point.first << " Y = " << point.second << endl;
 		gaussian.getNoise(point);
 	}
 

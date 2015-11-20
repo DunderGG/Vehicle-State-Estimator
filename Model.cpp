@@ -14,10 +14,10 @@ using namespace std;
 
 */
 
-void Model::setVel(float Vx, float Vy)
+void Model::setVel(float velx, float vely)
 {
-	this->Vx = Vx;
-	this->Vy = Vy;
+	this->Vx = velx;
+	this->Vy = vely;
 }
 
 pair<float, float> Model::getVel()
@@ -25,10 +25,10 @@ pair<float, float> Model::getVel()
 	return make_pair(this->Vx, this->Vy);;
 }
 
-void Model::setAcc(float Ax, float Ay)
+void Model::setAcc(float accx, float accy)
 {
-	this->Ax = Ax;
-	this->Ay = Ay;
+	this->Ax = accx;
+	this->Ay = accy;
 }
 
 pair<float, float> Model::getAcc()
@@ -36,10 +36,10 @@ pair<float, float> Model::getAcc()
 	return make_pair(this->Ax, this->Ay);
 }
 
-void Model::setPos(float x, float y)
+void Model::setPos(float posx, float posy)
 {
-	this->x = x;
-	this->y = y;
+	this->x = posx;
+	this->y = posy;
 }
 
 pair<float, float> Model::getPos()

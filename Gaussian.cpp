@@ -15,7 +15,7 @@ Gaussian::Gaussian()
 vector<pair<int, int> > Gaussian::getNoise(pair<int,int> point)
 {
 	vector<pair<int, int> > v;
-
+	pair<int, int> x = point;
 	return v;
 }
 
