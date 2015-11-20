@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Common.h"				// system configuration
-#include "Vehicle.h" 			// vehicle class (the model)
+//#include "Vehicle.h" 			// vehicle class (the model)
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
@@ -31,10 +31,10 @@ int main()
 	MatrixXf m = model.constVeloModel(samplingRate);
 	cout << m << endl;
 
-	vector < pair <int, int> > track = sensor.getTrack();
-	for_each (pair <int,int> point in track)
+	vector<pair<int, int>> track = sensor.getTrack();
+	for (pair<int,int> point : track)
 	{
-
+		gaussian.getNoise(point);
 	}
 
 
