@@ -19,7 +19,7 @@ vector<std::pair<int, int>> getNoise(int x)
 	return v;
 }
 
-Gaussian::computeGaussian(double mu, double sigma)
+double Gaussian::computeGaussian(double mu, double sigma)
 {
     const double epsilon = std::numeric_limits<double>::min();
     const double two_pi = 2.0*3.1415926536;
