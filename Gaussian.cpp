@@ -9,7 +9,7 @@ using namespace std;
 
 Gaussian::Gaussian()
 {
-
+	cout << "Starting Gaussian" << endl;
 }
 
 vector<std::pair<int, int>> getNoise(int x)

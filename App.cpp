@@ -1,10 +1,12 @@
 #include <iostream>
 #include <cstdio>
+#include <vector>
 
 #include "Common.h"				// system configuration
 #include "Vehicle.h" 			// vehicle class (the model)
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
+#include "Gaussian.h"
 
 // TO COMPILE WITH EIGEN
 //++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app
@@ -15,6 +17,9 @@ using namespace Eigen;
 
 int main()
 {
+	Sensor sensor;
+	Gaussian gaussian;
+
 	//The time between each sampling
 	float samplingRate = 0.5;
 
@@ -25,6 +30,13 @@ int main()
 	
 	MatrixXf m = model.constVeloModel(samplingRate);
 	cout << m << endl;
+
+	vector<pair<int, int>> track = sensor.getTrack();
+	for each (pair<int,int> point in track)
+	{
+
+	}
+
 
 
   	/* construct the Vehicle */
