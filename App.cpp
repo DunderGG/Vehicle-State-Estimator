@@ -47,7 +47,6 @@ int main()
     
     /* update (10 second), we will have 10/timestep samples of position */
     //volvo.computePos(simDuration);
-
 	
   	return 0;
 }

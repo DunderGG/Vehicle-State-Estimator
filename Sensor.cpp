@@ -16,8 +16,6 @@ Sensor::Sensor()
 
 int Sensor::randomData()
 {	
-
-
 	return 0;
 }
 
