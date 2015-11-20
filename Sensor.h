@@ -1,5 +1,6 @@
 #ifndef SENSOR_H
 #define SENSOR_H
+#include <vector>
 
 class Sensor
 {

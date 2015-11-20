@@ -25,9 +25,11 @@ public:
 
 private:
 	float x, y, Vx, Vy, Ax, Ay;
+
 	Eigen::Vector2f getPosVector(std::pair<float, float>);
 	Eigen::Vector2f getVelVector(std::pair<float, float>);
 	Eigen::Vector2f getAccVector(std::pair<float, float>);
+
 	friend std::ostream& operator<<(std::ostream&, const Model&);
 };
 
