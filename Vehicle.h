@@ -1,7 +1,10 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
-#include "common.h"
+#include <iostream>
+#include <fstream>
+
+#include "Common.h"
 #include "eigen/Eigen/Dense"
 
 using namespace Eigen;
@@ -45,14 +48,15 @@ public:
         float temp = 0;
         
         std::cout << "the state before computePos is:\n" << state << std::endl << std::endl;;
-        
+
         while (temp < (float) duration)
         {
+            /* update the state */
             state = mat*state;
             
             temp += timestep;
         }
-        
+    
         std::cout << "state after "<< duration <<" second:\n" << state << std::endl << std::endl;;
     }
     

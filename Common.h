@@ -24,6 +24,12 @@ using namespace Eigen;
 #define matSize         6     	// 2 blocks for each object, there are 3: pos, vel, acc
 #define simDuration     10		// duration of simulation in second
 
+#define MEAN            0
+#define COVARIANCE      5
+#define MAXPARTICLE     100
+#define RADIUS          1
+#define PI              3.1415926536
+
 Eigen::Vector2f initVector (float a, float b) {
     Eigen::Vector2f temp(a, b);
     return temp;

@@ -1,36 +1,34 @@
 #include "Gaussian.h"
 
+#include <cstdlib>
+#include <cmath>
+#include <limits>
+
+
 using namespace std;
 
-void Gaussian::getDistribution() {
-    std::default_random_engine gen;
-    std::normal_distribution<double> distrib(5.0, 1.0);
+double getDistribution (double mu, double sigma) 
+{
+    const double epsilon = std::numeric_limits<double>::min();
+    const double two_pi = 2.0*3.1415926536;
     
-    int p[10] = {};
+    static double z0, z1;
+    static bool generate;
+    generate = !generate;
     
-    for (int i=0; i<numOfExperiments; i++) {
-        double num = distrib(gen);
-        
-        if ((num>=0.0)&&(num<10.0)) ++p[int(num)];
+    if (!generate)
+        return z1 * sigma + mu;
+    
+    double u1, u2;
+    do
+    {
+        u1 = rand() * (1.0 / RAND_MAX);
+        u2 = rand() * (1.0 / RAND_MAX);
     }
+    while ( u1 <= epsilon );
     
-    std::cout << "normal_distribution (5.0,2.0):" << std::endl;
+    z0 = sqrt(-2.0 * log(u1)) * cos(two_pi * u2);
+    z1 = sqrt(-2.0 * log(u1)) * sin(two_pi * u2);
     
-    for (int i=0; i<10; ++i) {
-        std::cout << i << "-" << (i+1) << ": ";
-        std::cout << std::string(p[i]*estimatedPoints/numOfExperiments,'*') << std::endl;
-    }
-}
-
-Gaussian::Gaussian() {
-    
-}
-
-Gaussian::Gaussian(int points, int experiment) {
-    estimatedPoints = points;
-    numOfExperiments = experiment;
-}
-
-Gaussian::~Gaussian() {
-
+    return z0 * sigma + mu;
 }

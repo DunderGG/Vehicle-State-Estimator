@@ -1,10 +1,10 @@
 #include <iostream>
+#include <fstream>
 
 #include "Common.h"				// system configuration
 #include "Vehicle.h" 			// vehicle class (the model)
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
-#include "Gaussian.h"           // awgn
 
 // TO COMPILE WITH EIGEN
 //++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app
@@ -28,19 +28,14 @@ int main()
 //  m(1,1) = m(1,0) + m(0,1);
 //  cout << m << std::endl;
 
-//  	/* construct the Vehicle */
-//    Vehicle volvo (initVector(posX, posY), initVector(velX, velY), initVector(accelX, accelY));
-//    
-//    /* init the vehicle model */
-//    volvo.initMat();
-//    
-//    /* update (10 second), we will have 10/timestep samples of position */
-//    volvo.computePos(simDuration);
-//    
-    /* awgn */
-    Gaussian noise(10, 1000);
+  	/* construct the Vehicle */
+    Vehicle volvo (initVector(posX, posY), initVector(velX, velY), initVector(accelX, accelY));
     
-    noise.getDistribution();
+    /* init the vehicle model */
+    volvo.initMat();
+    
+    /* update (10 second), we will have 10/timestep samples of position */
+    volvo.computePos(simDuration);
     
   	return 0;
 }
