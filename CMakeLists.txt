@@ -10,7 +10,8 @@ set (SOURCE_FILES
 		App.cpp
 		Gaussian.cpp
 		Model.cpp
-		Sensor.cpp)
+		Sensor.cpp
+		Test.cpp )
 
 #add executable
 add_executable (vehicle-state-estimator ${SOURCE_FILES})
