@@ -100,7 +100,6 @@ MatrixXf Model::constVeloModel(float T)
 	//Get the state vector containing position, velocity and acceleration
 	VectorXf stateVector = getStateVector();
 	
-	// WHY DOES IT CRASH HERE?
 	MatrixXf motionMatrix(6,6);
 	motionMatrix << 1, 0, T, 0, 0, 0,  // Position
   					0, 1, 0, T, 0, 0,
