@@ -7,10 +7,18 @@ project (vehicle-state-estimator)
 # add_subdirectory (eigen)
 
 set (SOURCE_FILES
+		Common.h
+		Gaussiah.h
+		Model.h
+		Sensor.h
+		Test.h
+		Vehicle.h
+
 		App.cpp
 		Gaussian.cpp
 		Model.cpp
-		Sensor.cpp)
+		Sensor.cpp
+		Test.cpp )
 
 #add executable
 add_executable (vehicle-state-estimator ${SOURCE_FILES})
