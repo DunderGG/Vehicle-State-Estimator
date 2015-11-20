@@ -6,8 +6,8 @@
 class Model
 {
 public:
-	std::pair<float, float> Model::getPos();
-	void Model::setPos(float x, float y);
+	std::pair<float, float> getPos();
+	void setPos(float x, float y);
 	std::pair<float, float> getVel();
 	std::pair<float, float> getAcc();
 	void setVel(float Vx, float Vy);

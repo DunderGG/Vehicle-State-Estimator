@@ -32,7 +32,7 @@ int main()
 	cout << m << endl;
 
 	vector < pair <int, int> > track = sensor.getTrack();
-	for each (pair <int,int> point in track)
+	for_each (pair <int,int> point in track)
 	{
 
 	}
