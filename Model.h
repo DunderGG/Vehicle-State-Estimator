@@ -6,7 +6,7 @@
 class Model
 {
 public:
-	std::pair<float, float> Model::getPos();
+	std::pair<float, float> getPos();
 	void Model::setPos(float x, float y);
 	std::pair<float, float> getVel();
 	std::pair<float, float> getAcc();

@@ -12,15 +12,21 @@ Gaussian::Gaussian()
 	cout << "Starting Gaussian" << endl;
 }
 
-vector<std::pair<int, int>> getNoise(int x)
+vector<pair<int, int>> Gaussian::getNoise(pair<int,int> point)
 {
-	vector<std::pair<int, int>> v;
+	vector<pair<int, int>> v;
 
 	return v;
 }
 
 double Gaussian::computeGaussian(double mu, double sigma)
 {
+	/*
+		TODO: Change so that it returns the vector "points", containing the noise.
+	*/
+	//A vector cointaining all the points representing the noise
+	vector<pair<int, int>> points;
+
     const double epsilon = std::numeric_limits<double>::min();
     const double two_pi = 2.0*3.1415926536;
     

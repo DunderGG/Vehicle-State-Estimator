@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Common.h"				// system configuration
-#include "Vehicle.h" 			// vehicle class (the model)
+//#include "Vehicle.h" 			// vehicle class (the model)
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
@@ -34,7 +34,7 @@ int main()
 	vector<pair<int, int>> track = sensor.getTrack();
 	for each (pair<int,int> point in track)
 	{
-
+		gaussian.getNoise(point);
 	}
 
 
