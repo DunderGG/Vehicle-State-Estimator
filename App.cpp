@@ -67,9 +67,9 @@ int main()
 	for (pair<double,double> point : track)
 	{
 		//cout << "X = " << point.first << " Y = " << point.second << endl;
-		gaussian.getNoise(point, 100);
+		//gaussian.getNoise(point, 100);
 	}
-
+	gaussian.getNoise(make_pair(0,0), 100);
 
 
   	/* construct the Vehicle */
