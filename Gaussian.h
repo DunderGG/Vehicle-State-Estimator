@@ -10,7 +10,7 @@ public:
 	Gaussian();
 	~Gaussian();
 
-	std::vector<std::pair<double, double> > getNoise(std::pair<double,double>, int nrOfPoints);
+	std::vector<std::pair<double, double> > getNoise(std::pair<double,double>);
 
 	double computeGaussian (double mu, double sigma);
 

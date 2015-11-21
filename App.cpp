@@ -64,12 +64,13 @@ int main()
 	vector<pair<double, double> > track = sensor.getTrack();
 	//cout << "Track: " << endl;
 
+	vector<pair<double, double> > noiseVector;
 	for (pair<double,double> point : track)
 	{
-		//cout << "X = " << point.first << " Y = " << point.second << endl;
-		//gaussian.getNoise(point, 100);
+		cout << "X = " << point.first << " Y = " << point.second << endl;
+		gaussian.getNoise(point);
 	}
-	gaussian.getNoise(make_pair(0,0), 100);
+	
 
 
   	/* construct the Vehicle */

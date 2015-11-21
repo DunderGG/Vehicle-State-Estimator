@@ -8,22 +8,23 @@
 #include <random>
 #include <chrono>
 #include <functional>
+#include <assert.h>
 
 using namespace std;
 
-
+#define NUMBER_OF_NOISEPOINTS 100
 
 Gaussian::Gaussian()
 {
 	cout << "Starting Gaussian" << endl;
 }
 
-vector<pair<double, double> > Gaussian::getNoise(pair<double,double> point, int nrOfPoints)
+vector<pair<double, double> > Gaussian::getNoise(pair<double,double> point)
 {
 	vector<pair<double, double> > v;
 	pair<double, double> x = point;
 	//x.first = computeGaussian(10, 5);
-	polarFormBoxMuller(5);
+	polarFormBoxMuller(NUMBER_OF_NOISEPOINTS);
 	return v;
 }
 
@@ -86,7 +87,9 @@ vector<pair<double, double> > Gaussian::polarFormBoxMuller(int nrOfNums)
 		randNums.push_back(make_pair(rand1,rand2));
 		cout << "rand1: " << rand1 << endl << "rand2: " << rand2 << endl << endl;
 	}
-	cout << randNums.size() << endl;
+
+	assert(randNums.size() == nrOfNums && "Didn't generate correct number of numbers");
+	
 
 	/*
 	do
