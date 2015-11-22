@@ -56,10 +56,10 @@ Model::Model()
 	this->Ax = 0;
 	this->Ay = 0;
 
-	cout << "Model(P = "  << x << " , "  << y
-		 << " , V = "     << Vx << " , " << Vy
-		 << " , A = "     << Ax << " , " << Ay
-		 << ")"           << endl        << endl;
+//	cout << "Model(P = "  << x << " , "  << y
+//		 << " , V = "     << Vx << " , " << Vy
+//		 << " , A = "     << Ax << " , " << Ay
+//		 << ")"           << endl        << endl;
 }
 Model::Model(float x, float y, float Vx, float Vy, float Ax, float Ay)
 {
@@ -70,10 +70,10 @@ Model::Model(float x, float y, float Vx, float Vy, float Ax, float Ay)
 	this->Ax = Ax;
 	this->Ay = Ay;
 
-	cout << "Model(P = " << x << " , " << y 
-		 << " , V = "    << Vx << " , " << Vy
-		 << " , A = "    << Ax << " , " << Ay
-		 << ")"          << endl        << endl;
+//	cout << "Model(P = " << x << " , " << y 
+//		 << " , V = "    << Vx << " , " << Vy
+//		 << " , A = "    << Ax << " , " << Ay
+//		 << ")"          << endl        << endl;
 }
 Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> acc)
 {
@@ -84,10 +84,10 @@ Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> 
 	this->Ax = acc.first;
 	this->Ay = acc.second;
 
-	cout << "Model(P = " << pos.first << " , " << pos.second
-		<< " , V = "     << vel.first << " , " << vel.second
-		<< " , A = "     << acc.first << " , " << acc.second
-		<< ")"           << endl      << endl;
+//	cout << "Model(P = " << pos.first << " , " << pos.second
+//		<< " , V = "     << vel.first << " , " << vel.second
+//		<< " , A = "     << acc.first << " , " << acc.second
+//		<< ")"           << endl      << endl;
 }
 Model::~Model(void)
 {
