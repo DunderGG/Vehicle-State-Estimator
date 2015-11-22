@@ -1,9 +1,12 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include "Sensor.h"
-#include "Gaussian.h"
+#include <Vector>
 
-
+class Test {
+public:
+    void simpleTestOne ();
+    void simpleTestTwo ();
+};
 
 #endif

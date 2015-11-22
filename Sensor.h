@@ -12,10 +12,10 @@ public:
 	int randomData();
 	int realData();
 
-	std::vector<std::pair<double, double> > getTrack();
+	std::vector<std::pair<double, double>> getTrack();
 
 private:
-	std::vector<std::pair<double, double> > track;
+	std::vector<std::pair<double, double>> track;
 
 };
 

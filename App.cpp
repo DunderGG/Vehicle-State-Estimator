@@ -22,11 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdio>
 #include <vector>
 
-#include "Common.h"				// system configuration
-//#include "Vehicle.h" 			// vehicle class (the model)
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
+#include "Test.h"
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
@@ -38,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	(2)	App creates a Gaussian object. For each point (x,y) on the track,
 			App calls getNoise(point, nrOfPoints) and expects back the generated noise.
 	(3)	???
-
 */
 
 using namespace std;
@@ -46,41 +44,11 @@ using namespace Eigen;
 
 int main()
 {
-	Sensor sensor;
-	Gaussian gaussian;
-
-	//The time between each sampling
-	float samplingRate = 0.5;
-
-	//Create a model, starting with:
-	//               x,y                x,y                      x,y 
-	//   Position = (0,0), Velocity = (10,5) and Acceleration = (0,0)
-  	Model model(0,0, 10,5, 0,0);
-	
-	//Create the constant velocity model, with a given sampling rate
-	MatrixXf m = model.constVeloModel(samplingRate);
-	//cout << m << endl;
-
-	vector<pair<double, double> > track = sensor.getTrack();
-	//cout << "Track: " << endl;
-
-	vector<pair<double, double> > noiseVector;
-	for (pair<double,double> point : track)
-	{
-		cout << "X = " << point.first << " Y = " << point.second << endl;
-		gaussian.getNoise(point);
-	}
-	
-
-
-  	/* construct the Vehicle */
-    //Vehicle volvo (initVector(posX, posY), initVector(velX, velY), initVector(accelX, accelY));
+    Test Test1;
+    Test Test2;
     
-    /* init the vehicle model */
-    //volvo.initMat();
+    Test1.simpleTestOne();
+    Test2.simpleTestTwo();
     
-    /* update (10 second), we will have 10/timestep samples of position */
-    //volvo.computePos(simDuration);
-	
   	return 0;
 }

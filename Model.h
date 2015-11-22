@@ -1,5 +1,7 @@
 #ifndef MODEL_H
 #define MODEL_H
+#include <Vector>
+#include "Common.h"
 #include "eigen/Eigen/Dense"
 
 
@@ -13,11 +15,11 @@ public:
 	std::pair<float, float> getAcc();
 	void setVel(float Vx, float Vy);
 	void setAcc(float Ax, float Ay);
-
+    void computeState(float duration, float dt);
+    Eigen::VectorXf returnState();
+    
 	Eigen::MatrixXf constVeloModel(float T);
-	
 	Eigen::VectorXf getStateVector();
-
 
 	Model();
 	Model(std::pair<float, float> pos, std::pair<float, float> vel, std::pair<float, float> acc);
@@ -26,7 +28,8 @@ public:
 
 private:
 	float x, y, Vx, Vy, Ax, Ay;
-
+    
+    Eigen::VectorXf state;
 	Eigen::Vector2f getPosVector(std::pair<float, float>);
 	Eigen::Vector2f getVelVector(std::pair<float, float>);
 	Eigen::Vector2f getAccVector(std::pair<float, float>);

@@ -6,13 +6,14 @@ project (vehicle-state-estimator)
 # add add_subdirectories
 # add_subdirectory (eigen)
 
+include_directories (eigen)
+
 set (SOURCE_FILES
 		Common.h
 		Gaussian.h
 		Model.h
 		Sensor.h
 		Test.h
-		Vehicle.h
 
 		App.cpp
 		Gaussian.cpp

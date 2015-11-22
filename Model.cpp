@@ -56,11 +56,18 @@ Model::Model()
 	this->Ax = 0;
 	this->Ay = 0;
 
+    VectorXf temp(matSize);
+    temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
+    
+    /* update the initial state */
+    this->state = temp;
+    
 //	cout << "Model(P = "  << x << " , "  << y
 //		 << " , V = "     << Vx << " , " << Vy
 //		 << " , A = "     << Ax << " , " << Ay
 //		 << ")"           << endl        << endl;
 }
+
 Model::Model(float x, float y, float Vx, float Vy, float Ax, float Ay)
 {
 	this->x = x;
@@ -70,6 +77,12 @@ Model::Model(float x, float y, float Vx, float Vy, float Ax, float Ay)
 	this->Ax = Ax;
 	this->Ay = Ay;
 
+    VectorXf temp(matSize);
+    temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
+
+    /* update the initial state */
+    this->state = temp;
+    
 //	cout << "Model(P = " << x << " , " << y 
 //		 << " , V = "    << Vx << " , " << Vy
 //		 << " , A = "    << Ax << " , " << Ay
@@ -84,11 +97,18 @@ Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> 
 	this->Ax = acc.first;
 	this->Ay = acc.second;
 
+    VectorXf temp(matSize);
+    temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
+
+    /* update the initial state */
+    this->state = temp;
+    
 //	cout << "Model(P = " << pos.first << " , " << pos.second
 //		<< " , V = "     << vel.first << " , " << vel.second
 //		<< " , A = "     << acc.first << " , " << acc.second
 //		<< ")"           << endl      << endl;
 }
+
 Model::~Model(void)
 {
 	cout << "Destroying Model object" << endl;
@@ -138,12 +158,14 @@ Vector2f Model::getPosVector(pair<float, float> pos)
 	v << pos.first, pos.second;
 	return v;
 }
+
 Vector2f Model::getVelVector(pair<float, float> vel)
 {
 	Vector2f v;
 	v << vel.first, vel.second;
 	return v;
 }
+
 Vector2f Model::getAccVector(pair<float, float> acc)
 {
 	Vector2f v;
@@ -151,8 +173,20 @@ Vector2f Model::getAccVector(pair<float, float> acc)
 	return v;
 }
 
+void Model::computeState(float duration, float dt) {
+    float runningTime = 0;
+    
+    while (runningTime < duration) {
+        this->state = this->constVeloModel(timestep) * this->state;
+        runningTime+=dt;
+        
+        cout << this->state << std::endl;
+    }
+}
 
-
+Eigen::VectorXf Model::returnState() {
+    return this->state;
+}
 
 std::ostream& operator<<(std::ostream &strm, const Model &model) 
 {

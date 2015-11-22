@@ -24,9 +24,9 @@ using namespace Eigen;
 #define matSize         6     	// 2 blocks for each object, there are 3: pos, vel, acc
 #define simDuration     10		// duration of simulation in second
 
-Eigen::Vector2f initVector (float a, float b) {
-    Eigen::Vector2f temp(a, b);
-    return temp;
-}
+//Eigen::Vector2f initVector (float a, float b) {
+//    Eigen::Vector2f temp(a, b);
+//    return temp;
+//}
 
 #endif /* common_h */

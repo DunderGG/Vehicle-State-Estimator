@@ -19,9 +19,9 @@ Gaussian::Gaussian()
 	cout << "Starting Gaussian" << endl;
 }
 
-vector<pair<double, double> > Gaussian::getNoise(pair<double,double> point)
+vector<pair<double, double>> Gaussian::getNoise(pair<double,double> point)
 {
-	vector<pair<double, double> > v;
+	vector<pair<double, double>> v;
 	pair<double, double> x = point;
 	//x.first = computeGaussian(10, 5);
 	polarFormBoxMuller(NUMBER_OF_NOISEPOINTS);
@@ -34,7 +34,7 @@ double Gaussian::computeGaussian(double mu, double sigma)
 		TODO: Change so that it returns the vector "points", containing the noise.
 	*/
 	//A vector cointaining all the points representing the noise
-	vector<pair<int, int> > points;
+	vector<pair<int, int>> points;
 
     const double epsilon = std::numeric_limits<double>::min();
 	const double two_pi = 2.0*M_PI;
@@ -72,14 +72,14 @@ double Gaussian::computeGaussian(double mu, double sigma)
 	       and: http://stackoverflow.com/questions/10047215/uniform-random-number-generator-in-c
 	Apparently both faster and more robust than the above.
 */
-vector<pair<double, double> > Gaussian::polarFormBoxMuller(int nrOfNums)
+vector<pair<double, double>> Gaussian::polarFormBoxMuller(int nrOfNums)
 {
 	//float x1, x2, w, y1, y2;
 
 	mt19937 eng(chrono::high_resolution_clock::now().time_since_epoch().count());
 	uniform_real_distribution<double> dist(0, 1);
 	double rand1, rand2;
-	vector<pair<double, double> > randNums;
+	vector<pair<double, double>> randNums;
 	for (int i = 0; i < nrOfNums; i++)
 	{
 		rand1 = dist(eng);
