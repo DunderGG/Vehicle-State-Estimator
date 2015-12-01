@@ -7,6 +7,7 @@ class Test {
 public:
     void simpleTestOne ();
     void simpleTestTwo ();
+    void testSensorOne ();
 };
 
 #endif

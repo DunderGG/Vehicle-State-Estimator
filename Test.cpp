@@ -50,3 +50,8 @@ void Test::simpleTestTwo () {
     cout << model.returnState();
 }
 
+void Test::testSensorOne () {
+    Sensor sensor1;
+    
+    sensor1.readFile();
+}

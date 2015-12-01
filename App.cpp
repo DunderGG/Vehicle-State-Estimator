@@ -45,10 +45,11 @@ using namespace Eigen;
 int main()
 {
     Test Test1;
-    Test Test2;
     
-    Test1.simpleTestOne();
-    Test2.simpleTestTwo();
+//    Test1.simpleTestOne();
+//    Test1.simpleTestTwo();
     
-  	return 0;
+    Test1.testSensorOne();
+    
+    return 0;
 }
