@@ -21,11 +21,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <cstdio>
 #include <vector>
-
+#include <string>
+#include <fstream>
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
 #include "Test.h"
+#include "ExtendedKalmanFilter.hpp"
+
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
@@ -44,12 +47,15 @@ using namespace Eigen;
 
 int main()
 {
-    Test Test1;
-    
-//    Test1.simpleTestOne();
-//    Test1.simpleTestTwo();
-    
-    Test1.testSensorOne();
+	Model model;
+
+	Vector3f v;
+	v << 0, 1, 0;
+
+	cout << v << endl;
+
+	printf("Acc = %f\n", model.getAcc());
+
     
     return 0;
 }

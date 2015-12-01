@@ -1,10 +1,12 @@
 #include <iostream>
 #include "Model.h"
 #include "eigen/Eigen/Dense"
+#include <cmath>
 
 using namespace Eigen;
 using namespace std;
 
+#define deltaT 0.05
 
 /*
 	Lecture notes: https://pingpong.chalmers.se/courseId/4620/node.do?id=2646568&ts=1447065023559&u=33775507
@@ -14,13 +16,31 @@ using namespace std;
 
 */
 
+void Model::setTheta(float theta)
+{
+	this->theta = theta;
+}
+float Model::getTheta() const
+{
+	return this->theta;
+}
+
+void Model::setOmega(float omega)
+{
+	this->omega = omega;
+}
+float Model::getOmega() const
+{
+	return this->omega;
+}
+
 void Model::setVel(float velx, float vely)
 {
 	this->Vx = velx;
 	this->Vy = vely;
 }
 
-pair<float, float> Model::getVel()
+pair<float, float> Model::getVel() const
 {
 	return make_pair(this->Vx, this->Vy);;
 }
@@ -31,7 +51,7 @@ void Model::setAcc(float accx, float accy)
 	this->Ay = accy;
 }
 
-pair<float, float> Model::getAcc()
+pair<float, float> Model::getAcc() const
 {
 	return make_pair(this->Ax, this->Ay);
 }
@@ -42,7 +62,7 @@ void Model::setPos(float posx, float posy)
 	this->y = posy;
 }
 
-pair<float, float> Model::getPos()
+pair<float, float> Model::getPos() const
 {
 	return make_pair(this->x, this->y);
 }
@@ -55,9 +75,13 @@ Model::Model()
 	this->Vy = 0;
 	this->Ax = 0;
 	this->Ay = 0;
+	this->theta = 0;
+	this->omega = 0;
 
     VectorXf temp(matSize);
-    temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
+	//Dont consider acceleration yet
+	//temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
+	temp << this->x, this->y, this->Vx, this->Vy, this->theta, this->omega;
     
     /* update the initial state */
     this->state = temp;
@@ -68,7 +92,7 @@ Model::Model()
 //		 << ")"           << endl        << endl;
 }
 
-Model::Model(float x, float y, float Vx, float Vy, float Ax, float Ay)
+Model::Model(float x, float Vx, float y, float Vy, float Ax, float Ay, float theta, float omega)
 {
 	this->x = x;
 	this->y = y;
@@ -76,9 +100,13 @@ Model::Model(float x, float y, float Vx, float Vy, float Ax, float Ay)
 	this->Vy = Vy;
 	this->Ax = Ax;
 	this->Ay = Ay;
+	this->theta = theta;
+	this->omega = omega;
 
     VectorXf temp(matSize);
-    temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
+	//Dont consider acceleration yet
+    //temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
+	temp << this->x, this->y, this->Vx, this->Vy, this->theta, this->omega;
 
     /* update the initial state */
     this->state = temp;
@@ -88,7 +116,7 @@ Model::Model(float x, float y, float Vx, float Vy, float Ax, float Ay)
 //		 << " , A = "    << Ax << " , " << Ay
 //		 << ")"          << endl        << endl;
 }
-Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> acc)
+Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> acc, pair<float, float> angles)
 {
 	this->x = pos.first;
 	this->y = pos.second;
@@ -96,9 +124,13 @@ Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> 
 	this->Vy = vel.second;
 	this->Ax = acc.first;
 	this->Ay = acc.second;
+	this->theta = angles.first;
+	this->omega = angles.second;
 
     VectorXf temp(matSize);
-    temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
+	//Dont consider acceleration yet
+	//temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
+	temp << this->x, this->y, this->Vx, this->Vy, this->theta, this->omega;
 
     /* update the initial state */
     this->state = temp;
@@ -194,4 +226,27 @@ std::ostream& operator<<(std::ostream &strm, const Model &model)
 		<< " , V = " << model.Vx << " , " << model.Vy
 		<< " , A = " << model.Ax << " , " << model.Ay
 		<< ")" << endl << endl;
+}
+
+void Model::updateX()
+{
+	this->x += deltaT * this->getVel().first;
+}
+void Model::updateXdot(float vLongi)
+{
+	float U = vLongi;
+	this->Vx = U * cos(getTheta());
+}
+void Model::updateY()
+{
+	this->y += deltaT * this->getVel().second;
+}
+void Model::updateYdot(float vLongi)
+{
+	float U = vLongi;
+	this->Vy = U * sin(getTheta());
+}
+void Model::updateTheta()
+{
+	setTheta(getTheta() + (deltaT * getOmega()));
 }
