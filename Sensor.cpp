@@ -4,6 +4,10 @@
 #include <iostream>
 #include <fstream>
 
+#include <sstream>
+#include <string>
+#include <iomanip>
+
 using namespace std;
 
 Sensor::Sensor()
@@ -40,18 +44,34 @@ void Sensor::readFile ()
 {
     string line;
     
-    ifstream inputFile ("gps.txt");
-    
-    bool exp = inputFile.is_open();
+    ifstream inputFile ("../gps-2column.txt");
     
     if (inputFile.is_open())
     {
         while (getline (inputFile, line))
         {
-            cout << line << "\n";
+            std::stringstream   linestream(line);
+            std::string         value;
+
+            double xVal = 0;
+            double yVal = 0;
+
+            int column = 0;
+            while (getline(linestream, value, ',') && (column < 2))
+            {
+                if (column == 0)
+                    xVal = strtod(value.c_str(), NULL);
+                else 
+                {
+                    yVal = strtod(value.c_str(), NULL);
+                }
+
+                column++;
+            }
+
+            cout << setiosflags (ios::fixed) << setprecision(10) << xVal << "," << yVal << std::endl;
         }
-        inputFile.close();
     }
     
-    cout << "Done" << endl;
+    inputFile.close();
 }

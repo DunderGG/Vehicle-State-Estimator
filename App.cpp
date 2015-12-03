@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
-#include "Test.h"
+// #include "Test.h"
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
@@ -44,12 +44,12 @@ using namespace Eigen;
 
 int main()
 {
-    Test Test1;
+//    Test Test1;
     
 //    Test1.simpleTestOne();
 //    Test1.simpleTestTwo();
     
-    Test1.testSensorOne();
+//    Test1.testSensorOne();
     
     return 0;
 }
