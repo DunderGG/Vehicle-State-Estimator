@@ -40,7 +40,7 @@ Sensor::~Sensor()
 	cout << "Destroying Sensors object" << endl;
 }
 
-void Sensor::readFile ()
+pair<float,float> Sensor::readFile ()
 {
     string line;
     
