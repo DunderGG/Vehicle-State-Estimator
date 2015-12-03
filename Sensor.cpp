@@ -50,11 +50,14 @@ void Sensor::openFile(string filepath)
 	//We open the file (input mode) 
 	// and close it when the Sensor object is destroyed.
 	this->datafile.open(filepath, ios::in);
+	cout << "Datafile \"" << filepath << "\" opened" << endl;
 }
 
 pair<float,float> Sensor::readFile ()
 {
     string line;
+	double xVal = 0;
+	double yVal = 0;
     
     //ifstream inputFile ("../gps-2column.txt");
     
@@ -65,9 +68,6 @@ pair<float,float> Sensor::readFile ()
 		std::stringstream   linestream(line);
 		std::string         value;
 
-		double xVal = 0;
-		double yVal = 0;
-
 		int column = 0;
 		while (getline(linestream, value, ',') && (column < 2))
 		{
@@ -76,6 +76,7 @@ pair<float,float> Sensor::readFile ()
 			else 
 			{
 				yVal = strtod(value.c_str(), NULL);
+				cout << "yVal = " << yVal << endl;
 			}
 
 			column++;
@@ -84,9 +85,11 @@ pair<float,float> Sensor::readFile ()
         cout << setiosflags (ios::fixed) << setprecision(10) << xVal << "," << yVal << std::endl;
         
     }
-    
+	pair<float, float> values = make_pair(xVal, yVal);
+	cout << values.first << " " << values.second << endl;
+
     //THIS SHOULD CONTAIN THE X AND Y VALUES WE READ
-	return make_pair(0.0f, 0.0f);
+	return values;
 }
 
 pair<float, float> Sensor::readFile (int linenumber)
