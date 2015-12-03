@@ -128,30 +128,6 @@ Model::Model(float x, float Vx, float y, float Vy, float Ax, float Ay, float the
 //		 << " , A = "    << Ax << " , " << Ay
 //		 << ")"          << endl        << endl;
 }
-Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> acc, pair<float, float> angles)
-{
-	this->x = pos.first;
-	this->y = pos.second;
-	this->Sx = vel.first;
-	this->Sy = vel.second;
-	this->Ax = acc.first;
-	this->Ay = acc.second;
-	this->theta = angles.first;
-	this->omega = angles.second;
-
-    VectorXf temp(matSize);
-	//Dont consider acceleration yet
-	//temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
-	temp << this->x, this->y, this->Sx, this->Sy, this->theta, this->omega;
-
-    /* update the initial state */
-    this->state = temp;
-    
-//	cout << "Model(P = " << pos.first << " , " << pos.second
-//		<< " , V = "     << vel.first << " , " << vel.second
-//		<< " , A = "     << acc.first << " , " << acc.second
-//		<< ")"           << endl      << endl;
-}
 
 Model::~Model(void)
 {
@@ -189,31 +165,30 @@ MatrixXf Model::constVeloModel(float T)
 
 VectorXf Model::getStateVector()
 {
-	VectorXf v(this->getPosVector(this->getPos()).rows() +
-			   this->getVelVector(this->getSpeed()).rows() +
-			   this->getAccVector(this->getAcc()).rows());
-	v << this->getPosVector(this->getPos()), this->getVelVector(this->getSpeed()), this->getAccVector(this->getAcc());
+	VectorXf v(matSize);
+
+	v << this->getPosVector(this->getPosX(), this->getPosY()), this->getVelVector(this->getSpeedX(), this->getSpeedY()), this->getAccVector(this->getAccX(), this->getAccY());
 	return v;
 }
 
-Vector2f Model::getPosVector(pair<float, float> pos)
+Vector2f Model::getPosVector(float x, float y)
 {
 	Vector2f v;
-	v << pos.first, pos.second;
+	v << x,y;
 	return v;
 }
 
-Vector2f Model::getVelVector(pair<float, float> vel)
+Vector2f Model::getVelVector(float Vx, float Vy)
 {
 	Vector2f v;
-	v << vel.first, vel.second;
+	v << Vx, Vy;
 	return v;
 }
 
-Vector2f Model::getAccVector(pair<float, float> acc)
+Vector2f Model::getAccVector(float Ax, float Ay)
 {
 	Vector2f v;
-	v << acc.first, acc.second;
+	v << Ax, Ay;
 	return v;
 }
 
@@ -242,7 +217,7 @@ std::ostream& operator<<(std::ostream &strm, const Model &model)
 
 void Model::updateX()
 {
-	this->x += deltaT * this->getSpeed().first * cos(getTheta());
+	this->x += deltaT * this->getSpeedX() * cos(getTheta());
 }
 void Model::updateXdot(float vLongi)
 {
@@ -251,7 +226,7 @@ void Model::updateXdot(float vLongi)
 }
 void Model::updateY()
 {
-	this->y += deltaT * this->getSpeed().second * sin(getTheta());
+	this->y += deltaT * this->getSpeedY() * sin(getTheta());
 }
 void Model::updateYdot(float vLongi)
 {

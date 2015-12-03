@@ -15,7 +15,7 @@ public:
 
 	std::vector<std::pair<double, double>> getTrack();
     
-    void readFile();
+    std::pair<float, float> readFile();
     
 private:
 	std::vector<std::pair<double, double>> track;

@@ -40,7 +40,6 @@ public:
 	Eigen::VectorXf getStateVector();
 
 	Model();
-	Model(std::pair<float, float> pos, std::pair<float, float> vel, std::pair<float, float> acc, std::pair<float, float> angles);
 	Model(float x, float Vx, float y, float Vy, float Ax, float Ay, float theta, float omega);
 	~Model();
 
@@ -48,9 +47,9 @@ private:
 	float x, y, Sx, Sy, Ax, Ay, theta, omega;
     
     Eigen::VectorXf state;
-	Eigen::Vector2f getPosVector(std::pair<float, float>);
-	Eigen::Vector2f getVelVector(std::pair<float, float>);
-	Eigen::Vector2f getAccVector(std::pair<float, float>);
+	Eigen::Vector2f getPosVector(float, float);
+	Eigen::Vector2f getVelVector(float, float);
+	Eigen::Vector2f getAccVector(float, float);
 
 	friend std::ostream& operator<<(std::ostream&, const Model&);
 };

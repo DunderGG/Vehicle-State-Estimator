@@ -48,13 +48,16 @@ using namespace Eigen;
 int main()
 {
 	Model model;
+	Sensor sensor;
 
-	Vector3f v;
-	v << 0, 1, 0;
+	pair<float, float> position = sensor.readFile();
+
+	VectorXf v(matSize);
+	v << model.getStateVector();
 
 	cout << v << endl;
 
-	printf("Acc = %f\n", model.getAcc());
+
 
     
     return 0;
