@@ -63,33 +63,31 @@ pair<float,float> Sensor::readFile ()
     
     if (this->datafile.is_open())
     {
+		cout << "Reading a line..." << endl;
 		getline(this->datafile, line);
-        
+		
 		std::stringstream   linestream(line);
 		std::string         value;
 
 		int column = 0;
-		while (getline(linestream, value, ',') && (column < 2))
+		while (getline(linestream, value, '\t') && (column < 2))
 		{
 			if (column == 0)
 				xVal = strtod(value.c_str(), NULL);
 			else 
 			{
 				yVal = strtod(value.c_str(), NULL);
-				cout << "yVal = " << yVal << endl;
 			}
 
 			column++;
 		}
 
-        cout << setiosflags (ios::fixed) << setprecision(10) << xVal << "," << yVal << std::endl;
+        //cout << setiosflags (ios::fixed) << setprecision(10) << xVal << "," << yVal << std::endl;
         
     }
-	pair<float, float> values = make_pair(xVal, yVal);
-	cout << values.first << " " << values.second << endl;
 
     //THIS SHOULD CONTAIN THE X AND Y VALUES WE READ
-	return values;
+	return make_pair(xVal, yVal);
 }
 pair<float, float> Sensor::readFile(int linenumber)
 {
