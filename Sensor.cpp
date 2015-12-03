@@ -89,7 +89,8 @@ pair<float,float> Sensor::readFile ()
     //THIS SHOULD CONTAIN THE X AND Y VALUES WE READ
 	return make_pair(xVal, yVal);
 }
-pair<float, float> Sensor::readFile(int linenumber)
+
+pair<float, float> Sensor::readFile (int linenumber)
 {
 	string line;
 
@@ -122,6 +123,6 @@ pair<float, float> Sensor::readFile(int linenumber)
 		}
 	}
 
-
+    //THIS SHOULD CONTAIN THE X AND Y VALUES WE READ
 	return make_pair(0.0f, 0.0f);
 }

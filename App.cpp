@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
-#include "ExtendedKalmanFilter.hpp"
+// #include "ExtendedKalmanFilter.hpp"
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
