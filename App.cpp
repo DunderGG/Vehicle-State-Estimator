@@ -47,7 +47,10 @@ int main()
 {
 	Model model;
 	Sensor sensor;
+	int lineNumber = 0;
 
+	sensor.openFile("../gps-2column.txt");
+	//pair<float, float> position = sensor.readFile(lineNumber++);
 	pair<float, float> position = sensor.readFile();
 
 	VectorXf v(matSize);

@@ -167,7 +167,9 @@ VectorXf Model::getStateVector()
 {
 	VectorXf v(matSize);
 
-	v << this->getPosVector(this->getPosX(), this->getPosY()), this->getVelVector(this->getSpeedX(), this->getSpeedY()), this->getAccVector(this->getAccX(), this->getAccY());
+	v << this->getPosVector(this->getPosX(), this->getPosY()), 
+		 this->getVelVector(this->getSpeedX(), this->getSpeedY()), 
+		 this->getAccVector(this->getAccX(), this->getAccY());
 	return v;
 }
 
