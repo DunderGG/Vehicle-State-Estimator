@@ -49,11 +49,12 @@ int main()
 	Sensor sensor;
 	int lineNumber = 0;
 
-	sensor.openFile("../gps-2column.txt");
+	sensor.openFile("gps-2column.txt");
 	//pair<float, float> position = sensor.readFile(lineNumber++);
 	for (int i = 0; i < 10; i++)
 	{
 		pair<float, float> position = sensor.readFile();
+
 		cout << "X = " << position.first << ", Y = " << position.second << endl;
 	}
 	VectorXf v(matSize);
