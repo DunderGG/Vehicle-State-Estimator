@@ -12,7 +12,7 @@ public:
 	void setPos(float x, float y);	
 	
 	//SETTERS
-	void setVel(float Vx, float Vy);
+	void setSpeed(float Vx, float Vy);
 	void setAcc(float Ax, float Ay);
 	void setTheta(float theta);
 	void setOmega(float omega);
@@ -20,9 +20,12 @@ public:
 	//GETTERS
 	float getTheta() const;
 	float getOmega() const;
-	std::pair<float, float> getPos() const;
-	std::pair<float, float> getVel() const;
-	std::pair<float, float> getAcc() const;
+	float getPosX() const;
+	float getPosY() const;
+	float getSpeedX() const;
+	float getSpeedY() const;
+	float getAccX() const;
+	float getAccY() const;
 
     void computeState(float duration, float dt);
     
@@ -42,7 +45,7 @@ public:
 	~Model();
 
 private:
-	float x, y, Vx, Vy, Ax, Ay, theta, omega;
+	float x, y, Sx, Sy, Ax, Ay, theta, omega;
     
     Eigen::VectorXf state;
 	Eigen::Vector2f getPosVector(std::pair<float, float>);

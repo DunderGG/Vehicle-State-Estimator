@@ -34,15 +34,19 @@ float Model::getOmega() const
 	return this->omega;
 }
 
-void Model::setVel(float velx, float vely)
+void Model::setSpeed(float velx, float vely)
 {
-	this->Vx = velx;
-	this->Vy = vely;
+	this->Sx = velx;
+	this->Sy = vely;
 }
 
-pair<float, float> Model::getVel() const
+float Model::getSpeedX() const
 {
-	return make_pair(this->Vx, this->Vy);;
+	return this->Sx;
+}
+float Model::getSpeedY() const
+{
+	return this->Sy;
 }
 
 void Model::setAcc(float accx, float accy)
@@ -51,9 +55,13 @@ void Model::setAcc(float accx, float accy)
 	this->Ay = accy;
 }
 
-pair<float, float> Model::getAcc() const
+float Model::getAccX() const
 {
-	return make_pair(this->Ax, this->Ay);
+	return this->Ax;
+}
+float Model::getAccY() const
+{
+	return this->Ay;
 }
 
 void Model::setPos(float posx, float posy)
@@ -62,17 +70,21 @@ void Model::setPos(float posx, float posy)
 	this->y = posy;
 }
 
-pair<float, float> Model::getPos() const
+float Model::getPosX() const
 {
-	return make_pair(this->x, this->y);
+	return this->x;
+}
+float Model::getPosY() const
+{
+	return this->y;
 }
 
 Model::Model()
 {
 	this->x = 0;
 	this->y = 0;
-	this->Vx = 0;
-	this->Vy = 0;
+	this->Sx = 0;
+	this->Sy = 0;
 	this->Ax = 0;
 	this->Ay = 0;
 	this->theta = 0;
@@ -81,7 +93,7 @@ Model::Model()
     VectorXf temp(matSize);
 	//Dont consider acceleration yet
 	//temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
-	temp << this->x, this->y, this->Vx, this->Vy, this->theta, this->omega;
+	temp << this->x, this->y, this->Sx, this->Sy, this->theta, this->omega;
     
     /* update the initial state */
     this->state = temp;
@@ -96,8 +108,8 @@ Model::Model(float x, float Vx, float y, float Vy, float Ax, float Ay, float the
 {
 	this->x = x;
 	this->y = y;
-	this->Vx = Vx;
-	this->Vy = Vy;
+	this->Sx = Vx;
+	this->Sy = Vy;
 	this->Ax = Ax;
 	this->Ay = Ay;
 	this->theta = theta;
@@ -106,7 +118,7 @@ Model::Model(float x, float Vx, float y, float Vy, float Ax, float Ay, float the
     VectorXf temp(matSize);
 	//Dont consider acceleration yet
     //temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
-	temp << this->x, this->y, this->Vx, this->Vy, this->theta, this->omega;
+	temp << this->x, this->y, this->Sx, this->Sy, this->theta, this->omega;
 
     /* update the initial state */
     this->state = temp;
@@ -120,8 +132,8 @@ Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> 
 {
 	this->x = pos.first;
 	this->y = pos.second;
-	this->Vx = vel.first;
-	this->Vy = vel.second;
+	this->Sx = vel.first;
+	this->Sy = vel.second;
 	this->Ax = acc.first;
 	this->Ay = acc.second;
 	this->theta = angles.first;
@@ -130,7 +142,7 @@ Model::Model(pair<float, float> pos, pair<float, float> vel, pair<float, float> 
     VectorXf temp(matSize);
 	//Dont consider acceleration yet
 	//temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
-	temp << this->x, this->y, this->Vx, this->Vy, this->theta, this->omega;
+	temp << this->x, this->y, this->Sx, this->Sy, this->theta, this->omega;
 
     /* update the initial state */
     this->state = temp;
@@ -178,9 +190,9 @@ MatrixXf Model::constVeloModel(float T)
 VectorXf Model::getStateVector()
 {
 	VectorXf v(this->getPosVector(this->getPos()).rows() +
-			   this->getVelVector(this->getVel()).rows() +
+			   this->getVelVector(this->getSpeed()).rows() +
 			   this->getAccVector(this->getAcc()).rows());
-	v << this->getPosVector(this->getPos()), this->getVelVector(this->getVel()), this->getAccVector(this->getAcc());
+	v << this->getPosVector(this->getPos()), this->getVelVector(this->getSpeed()), this->getAccVector(this->getAcc());
 	return v;
 }
 
@@ -223,28 +235,28 @@ Eigen::VectorXf Model::returnState() {
 std::ostream& operator<<(std::ostream &strm, const Model &model) 
 {
 	return strm << "Model(P = " << model.x << " , " << model.y
-		<< " , V = " << model.Vx << " , " << model.Vy
+		<< " , V = " << model.Sx << " , " << model.Sy
 		<< " , A = " << model.Ax << " , " << model.Ay
 		<< ")" << endl << endl;
 }
 
 void Model::updateX()
 {
-	this->x += deltaT * this->getVel().first;
+	this->x += deltaT * this->getSpeed().first * cos(getTheta());
 }
 void Model::updateXdot(float vLongi)
 {
 	float U = vLongi;
-	this->Vx = U * cos(getTheta());
+	this->Sx = U * cos(getTheta());
 }
 void Model::updateY()
 {
-	this->y += deltaT * this->getVel().second;
+	this->y += deltaT * this->getSpeed().second * sin(getTheta());
 }
 void Model::updateYdot(float vLongi)
 {
 	float U = vLongi;
-	this->Vy = U * sin(getTheta());
+	this->Sy = U * sin(getTheta());
 }
 void Model::updateTheta()
 {
