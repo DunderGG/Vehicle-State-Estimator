@@ -26,7 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
-// #include "ExtendedKalmanFilter.hpp"
+#include "ExtendedKalmanFilter.hpp"
+#include <UnscentedKalmanFilter.hpp>
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
@@ -46,6 +47,18 @@ using namespace Eigen;
 int main()
 {
 	Model model;
+	model.setSpeed(50.0f);
+	
+	for (int i = 0; i < 100; i++)
+	{
+		model.updateState();
+		if (i % 10 == 0)
+			if(i < 50)
+				model.setTheta(model.getTheta() + 10.0f);
+			else
+				model.setTheta(model.getTheta() - 20.0f);
+	}	
+	
 	Sensor sensor;
 	int lineNumber = 0;
 
@@ -53,14 +66,12 @@ int main()
 	//pair<float, float> position = sensor.readFile(lineNumber++);
 	for (int i = 0; i < 100; i++)
 	{
-		pair<float, float> position = sensor.readFile();
+		//pair<float, float> position = sensor.readFile();
 
-		cout << "X = " << position.first << ", Y = " << position.second << endl;
+		//cout << "X = " << position.first << ",\t Y = " << position.second << endl;
 	}
-	VectorXf v(matSize);
-	v << model.getStateVector();
 
-	cout << v << endl;
-    
+	
+
     return 0;
 }

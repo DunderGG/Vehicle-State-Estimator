@@ -63,7 +63,7 @@ pair<float,float> Sensor::readFile ()
     
     if (this->datafile.is_open())
     {
-		cout << "Reading a line..." << endl;
+		//cout << "Reading a line..." << endl;
 		getline(this->datafile, line);
 		
 		std::stringstream   linestream(line);
