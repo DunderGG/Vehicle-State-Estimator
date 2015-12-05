@@ -51,7 +51,7 @@ int main()
 
 	sensor.openFile("gps-2column.txt");
 	//pair<float, float> position = sensor.readFile(lineNumber++);
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		pair<float, float> position = sensor.readFile();
 

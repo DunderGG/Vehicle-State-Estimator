@@ -70,7 +70,7 @@ pair<float,float> Sensor::readFile ()
 		std::string         value;
 
 		int column = 0;
-		while (getline(linestream, value, '\t') && (column < 2))
+		while (getline(linestream, value, ',') && (column < 2))
 		{
 			if (column == 0)
 				xVal = strtod(value.c_str(), NULL);

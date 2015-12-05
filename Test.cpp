@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include "test.h"
+#include "Test.h"
 #include "Common.h"
 #include "Sensor.h"
 #include "Gaussian.h"
@@ -19,7 +19,7 @@ void Test::simpleTestOne ( ) {
     //Create a model, starting with:
     //               x,y                x,y                      x,y
     //   Position = (0,0), Velocity = (10,5) and Acceleration = (0,0)
-    Model model(0,0, 10,5, 0,0);
+    Model model(0,0, 10,5, 0,0, 0, 0);
     
     //Create the constant velocity model, with a given sampling rate
     MatrixXf m = model.constVeloModel(samplingRate);
@@ -43,7 +43,7 @@ void Test::simpleTestTwo () {
     //Create the model
     //               x,y                x,y                      x,y
     //   Position = (0,0), Velocity = (10,5) and Acceleration = (0,0)
-    Model model(0,0, 10,5, 0,0);
+    Model model(0,0, 10,5, 0,0, 0, 0);
     
     model.computeState(simDuration, samplingRate);
     
