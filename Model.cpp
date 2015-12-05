@@ -6,7 +6,7 @@
 using namespace Eigen;
 using namespace std;
 
-#define deltaT 0.05
+#define deltaT 0.5f
 
 /*
 	Lecture notes: https://pingpong.chalmers.se/courseId/4620/node.do?id=2646568&ts=1447065023559&u=33775507
@@ -19,6 +19,7 @@ using namespace std;
 void Model::setTheta(float theta)
 {
 	this->theta = theta;
+	cout << "Theta set to " << this->theta << endl;
 }
 float Model::getTheta() const
 {
@@ -34,40 +35,24 @@ float Model::getOmega() const
 	return this->omega;
 }
 
-void Model::setSpeed(float velx, float vely)
+void Model::setSpeed(float s)
 {
-	this->Sx = velx;
-	this->Sy = vely;
+	this->speed = s;
+	cout << "Speed set to " << this->speed << endl;
 }
 
-float Model::getSpeedX() const
+float Model::getSpeed() const
 {
-	return this->Sx;
-}
-float Model::getSpeedY() const
-{
-	return this->Sy;
+	return this->speed;
 }
 
-void Model::setAcc(float accx, float accy)
-{
-	this->Ax = accx;
-	this->Ay = accy;
-}
-
-float Model::getAccX() const
-{
-	return this->Ax;
-}
-float Model::getAccY() const
-{
-	return this->Ay;
-}
 
 void Model::setPos(float posx, float posy)
 {
 	this->x = posx;
+	cout << "X set to " << this->x << endl;
 	this->y = posy;
+	cout << "Y set to " << this->y << endl;
 }
 
 float Model::getPosX() const
@@ -83,51 +68,28 @@ Model::Model()
 {
 	this->x = 0;
 	this->y = 0;
-	this->Sx = 0;
-	this->Sy = 0;
-	this->Ax = 0;
-	this->Ay = 0;
+	this->speed = 0;
 	this->theta = 0;
 	this->omega = 0;
 
-    VectorXf temp(matSize);
+    VectorXf temp(5);
 	//Dont consider acceleration yet
 	//temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
-	temp << this->x, this->y, this->Sx, this->Sy, this->theta, this->omega;
+	temp << this->x, this->y, this->speed, this->theta, this->omega;
     
     /* update the initial state */
     this->state = temp;
+
+	float Q1 = 1;
+	float Q2 = 1;
+	Matrix4f noiseMatrix;
+	noiseMatrix << (Q1*(pow(deltaT, 3)) / 3),  0,						  (Q1*(pow(deltaT, 2)) / 2), 0,
+					0,						   (Q2*(pow(deltaT, 3)) / 3), 0,						 (Q2*(pow(deltaT, 2)) / 2),
+					(Q1*(pow(deltaT, 2)) / 2), 0,					 	  Q1*deltaT,				 0,
+											   0,						  (Q2*(pow(deltaT, 2)) / 2), 0,	Q2*deltaT;
     
-//	cout << "Model(P = "  << x << " , "  << y
-//		 << " , V = "     << Vx << " , " << Vy
-//		 << " , A = "     << Ax << " , " << Ay
-//		 << ")"           << endl        << endl;
 }
 
-Model::Model(float x, float Vx, float y, float Vy, float Ax, float Ay, float theta, float omega)
-{
-	this->x = x;
-	this->y = y;
-	this->Sx = Vx;
-	this->Sy = Vy;
-	this->Ax = Ax;
-	this->Ay = Ay;
-	this->theta = theta;
-	this->omega = omega;
-
-    VectorXf temp(matSize);
-	//Dont consider acceleration yet
-    //temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
-	temp << this->x, this->y, this->Sx, this->Sy, this->theta, this->omega;
-
-    /* update the initial state */
-    this->state = temp;
-    
-//	cout << "Model(P = " << x << " , " << y 
-//		 << " , V = "    << Vx << " , " << Vy
-//		 << " , A = "    << Ax << " , " << Ay
-//		 << ")"          << endl        << endl;
-}
 
 Model::~Model(void)
 {
@@ -137,8 +99,6 @@ Model::~Model(void)
 // T is the sampling rate we want to use.
 MatrixXf Model::constVeloModel(float T)
 {
-	//Get the state vector containing position, velocity and acceleration
-	VectorXf stateVector = getStateVector();
 	
 	MatrixXf motionMatrix(6,6);
 	motionMatrix << 1, 0, T, 0, 0, 0,  // Position
@@ -163,79 +123,56 @@ MatrixXf Model::constVeloModel(float T)
   	return motionMatrix;
 }
 
-VectorXf Model::getStateVector()
-{
-	VectorXf v(matSize);
-
-	v << this->getPosVector(this->getPosX(), this->getPosY()), 
-		 this->getVelVector(this->getSpeedX(), this->getSpeedY()), 
-		 this->getAccVector(this->getAccX(), this->getAccY());
-	return v;
-}
-
-Vector2f Model::getPosVector(float x, float y)
-{
-	Vector2f v;
-	v << x,y;
-	return v;
-}
-
-Vector2f Model::getVelVector(float Vx, float Vy)
-{
-	Vector2f v;
-	v << Vx, Vy;
-	return v;
-}
-
-Vector2f Model::getAccVector(float Ax, float Ay)
-{
-	Vector2f v;
-	v << Ax, Ay;
-	return v;
-}
-
-void Model::computeState(float duration, float dt) {
-    float runningTime = 0;
-    
-    while (runningTime < duration) {
-        this->state = this->constVeloModel(timestep) * this->state;
-        runningTime+=dt;
-        
-        cout << this->state << std::endl;
-    }
-}
-
-Eigen::VectorXf Model::returnState() {
-    return this->state;
-}
 
 std::ostream& operator<<(std::ostream &strm, const Model &model) 
 {
 	return strm << "Model(P = " << model.x << " , " << model.y
-		<< " , V = " << model.Sx << " , " << model.Sy
-		<< " , A = " << model.Ax << " , " << model.Ay
-		<< ")" << endl << endl;
+		<< " , Speed = " << model.speed << ")" << endl << endl;
 }
 
+Eigen::Vector3f Model::updateState()
+{
+	updateX();
+	updateY();
+	updateTheta();
+	cout << "T = " << this->theta << endl << endl;
+
+	Vector3f ret(3);
+	ret << this->x, this->y, this->theta;
+	return ret;
+}
 void Model::updateX()
 {
-	this->x += deltaT * this->getSpeedX() * cos(getTheta());
+	cout << "Updating X" << endl;
+	cout << this->x << " + " << deltaT << " * " << this->speed << " * cos(" << this->theta << ") = ";
+
+	this->x += deltaT * this->speed * cos(this->theta);
+
+	cout << this->x << endl;
 }
+/*
 void Model::updateXdot(float vLongi)
 {
 	float U = vLongi;
 	this->Sx = U * cos(getTheta());
-}
+}*/
 void Model::updateY()
 {
-	this->y += deltaT * this->getSpeedY() * sin(getTheta());
+	cout << "Updating Y" << endl;
+	cout << this->y << " + " << deltaT << " * " << this->speed << " * sin(" << this->theta << ") = ";
+
+	this->y += deltaT * this->speed * sin(this->theta);
+
+	cout << this->y << endl;
 }
+/*
 void Model::updateYdot(float vLongi)
 {
 	float U = vLongi;
 	this->Sy = U * sin(getTheta());
-}
+}*/
+
 void Model::updateTheta()
 {
-	setTheta(getTheta() + (deltaT * getOmega()));
+	this->theta += (deltaT * getOmega());
 }

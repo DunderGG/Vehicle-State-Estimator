@@ -12,7 +12,7 @@ public:
 	void setPos(float x, float y);	
 	
 	//SETTERS
-	void setSpeed(float Vx, float Vy);
+	void setSpeed(float s);
 	void setAcc(float Ax, float Ay);
 	void setTheta(float theta);
 	void setOmega(float omega);
@@ -22,12 +22,11 @@ public:
 	float getOmega() const;
 	float getPosX() const;
 	float getPosY() const;
-	float getSpeedX() const;
-	float getSpeedY() const;
+	float getSpeed() const;
 	float getAccX() const;
 	float getAccY() const;
 
-    void computeState(float duration, float dt);
+	Eigen::Vector3f updateState();
     
 	void updateX();
 	void updateXdot(float vLongi);
@@ -35,21 +34,15 @@ public:
 	void updateYdot(float vLongi);
 	void updateTheta();
 
-	Eigen::VectorXf returnState();
 	Eigen::MatrixXf constVeloModel(float T);
-	Eigen::VectorXf getStateVector();
 
 	Model();
-	Model(float x, float Vx, float y, float Vy, float Ax, float Ay, float theta, float omega);
 	~Model();
 
 private:
-	float x, y, Sx, Sy, Ax, Ay, theta, omega;
+	float x, y, speed, theta, omega;
     
     Eigen::VectorXf state;
-	Eigen::Vector2f getPosVector(float, float);
-	Eigen::Vector2f getVelVector(float, float);
-	Eigen::Vector2f getAccVector(float, float);
 
 	friend std::ostream& operator<<(std::ostream&, const Model&);
 };

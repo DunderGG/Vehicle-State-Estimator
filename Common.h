@@ -19,7 +19,7 @@ using namespace Eigen;
 #define velY            0       // 0 m/s
 #define accelX          5       // 5m/s
 #define accelY          0
-#define timestep        0.001   // 0.001 s or 1000 fps
+#define timestep        0.001f   // 0.001 s or 1000 fps
 #define constVel        false   // true = constant velocity, false = constant accel
 #define matSize         6     	// 2 blocks for each object, there are 3: pos, vel, acc
 #define simDuration     10		// duration of simulation in second
