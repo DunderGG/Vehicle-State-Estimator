@@ -26,6 +26,7 @@ private:
 	std::vector<std::pair<double, double>> track;
 	std::ifstream datafile;
 
+
 };
 
 #endif

@@ -59,7 +59,5 @@ int main()
 		cout << "X = " << position.first << ",\t Y = " << position.second << endl;
 	}
 
-	
-	
     return 0;
 }

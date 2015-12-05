@@ -7,8 +7,11 @@ public:
 	EKF();
 	~EKF();
 
-private:
+	void predict();
+	void update();
 
+private:
+	void updateJacobians();
 };
 
 #endif
