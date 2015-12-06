@@ -39,14 +39,18 @@ using namespace Eigen;
 int main()
 {
 	Model model;
-	//model.setSpeed(50.0f);
+	Vector3d state;
 
 	ifstream headFile("headingShorter.txt");
 	ifstream velFile("velocity.txt");
 	ifstream omegaFile("omega.txt");
+	ifstream xFile("x.txt");
+	ifstream yFile("y.txt");
 
-	string headLine, velLine, omLine;
-	double heading, velocity, omega;
+	ofstream resultFile("result.txt");
+
+	string headLine, velLine, omLine, xLine, yLine;
+	double heading, velocity, omega, x, y;
 	
 	if (headFile.is_open())
 	{
@@ -56,20 +60,34 @@ int main()
 		{
 			getline(velFile, velLine);
 			getline(omegaFile, omLine);
+			getline(xFile, xLine);
+			getline(yFile, yLine);
 			
 			velocity = strtod(velLine.c_str(), NULL);
 			heading = strtod(headLine.c_str(), NULL);
 			omega = strtod(omLine.c_str(), NULL);
+			x = strtod(xLine.c_str(), NULL);
+			y = strtod(yLine.c_str(), NULL);
 			
 			model.setTheta(heading);
 			model.setSpeed(velocity);
 			model.setOmega(omega);
 
-			model.updateState();
+			state = model.updateState();
+
+			cout << endl << "Computed: X = " << state(0) << "\t, Y = " << state(1) << endl
+						 << "Measured: X = " << x	     << "\t, Y = " << y		   << endl << endl;
+
+			resultFile << state(0) << "\t" << state(1) << "\t" << x << "\t" << y << "\n";
 		}
 
 	}
 
+	headFile.close();
+	velFile.close();
+	omegaFile.close();
+	xFile.close();
+	yFile.close();
 
 	
 	Sensor sensor;

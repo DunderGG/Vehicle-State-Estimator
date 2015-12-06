@@ -134,17 +134,17 @@ std::ostream& operator<<(std::ostream &strm, const Model &model)
 
 Eigen::Vector3d Model::updateState()
 {
-	updateTheta();
-	updateX();
-	updateY();
+	double T = updateTheta();
+	double X = updateX();
+	double Y = updateY();
 	
 	cout << endl;
 
 	Vector3d ret(3);
-	ret << this->x, this->y, this->theta;
+	ret << X, Y, T;
 	return ret;
 }
-void Model::updateX()
+double Model::updateX()
 {
 	cout << "Updating X" << endl;
 	cout << this->x << " + " << deltaT << " * " << this->speed << " * cos(" << this->theta << ") = ";
@@ -152,6 +152,7 @@ void Model::updateX()
 	this->x += deltaT * this->speed * cos(this->theta);
 
 	cout << this->x << endl;
+	return this->x;
 }
 /*
 void Model::updateXdot(double vLongi)
@@ -159,7 +160,7 @@ void Model::updateXdot(double vLongi)
 	double U = vLongi;
 	this->Sx = U * cos(getTheta());
 }*/
-void Model::updateY()
+double Model::updateY()
 {
 	cout << "Updating Y" << endl;
 	cout << this->y << " + " << deltaT << " * " << this->speed << " * sin(" << this->theta << ") = ";
@@ -167,6 +168,7 @@ void Model::updateY()
 	this->y += deltaT * this->speed * sin(this->theta);
 
 	cout << this->y << endl;
+	return this->y;
 }
 /*
 void Model::updateYdot(double vLongi)
@@ -175,7 +177,7 @@ void Model::updateYdot(double vLongi)
 	this->Sy = U * sin(getTheta());
 }*/
 
-void Model::updateTheta()
+double Model::updateTheta()
 {
 	cout << "Updating theta" << endl;
 	cout << this->theta << " + " << deltaT << " * (" << this->speed << " / " << wheelBase << ")" << " * tan(" << this->omega << ") = ";
@@ -183,6 +185,7 @@ void Model::updateTheta()
 	this->theta += deltaT * (this->speed / wheelBase) * tan(this->omega);
 
 	cout << this->theta << endl;
+	return this->theta;
 }
 
 double Model::degrees_to_radian(double deg)

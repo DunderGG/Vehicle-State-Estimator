@@ -25,11 +25,11 @@ public:
 
 	Eigen::Vector3d updateState();
     
-	void updateX();
+	double updateX();
 	void updateXdot(double);
-	void updateY();
+	double updateY();
 	void updateYdot(double);
-	void updateTheta();
+	double updateTheta();
 
 	Eigen::MatrixXd constVeloModel(double T);
 
