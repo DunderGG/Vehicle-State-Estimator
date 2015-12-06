@@ -6,7 +6,8 @@
 using namespace Eigen;
 using namespace std;
 
-#define deltaT 0.5
+#define wheelBase 2.744
+#define deltaT 0.05
 
 /*
 	Lecture notes: https://pingpong.chalmers.se/courseId/4620/node.do?id=2646568&ts=1447065023559&u=33775507
@@ -16,38 +17,39 @@ using namespace std;
 
 */
 
-void Model::setTheta(float theta)
+void Model::setTheta(double t)
 {
-	this->theta = theta;
+	this->theta = t;
 	cout << "Theta set to " << this->theta << endl;
 }
-float Model::getTheta() const
+double Model::getTheta() const
 {
 	return this->theta;
 }
 
-void Model::setOmega(float omega)
+void Model::setOmega(double o)
 {
-	this->omega = omega;
+	this->omega = o;
+	cout << "Omega set to " << this->omega << endl;
 }
-float Model::getOmega() const
+double Model::getOmega() const
 {
 	return this->omega;
 }
 
-void Model::setSpeed(float s)
+void Model::setSpeed(double s)
 {
 	this->speed = s;
 	cout << "Speed set to " << this->speed << endl;
 }
 
-float Model::getSpeed() const
+double Model::getSpeed() const
 {
 	return this->speed;
 }
 
 
-void Model::setPos(float posx, float posy)
+void Model::setPos(double posx, double posy)
 {
 	this->x = posx;
 	cout << "X set to " << this->x << endl;
@@ -55,11 +57,11 @@ void Model::setPos(float posx, float posy)
 	cout << "Y set to " << this->y << endl;
 }
 
-float Model::getPosX() const
+double Model::getPosX() const
 {
 	return this->x;
 }
-float Model::getPosY() const
+double Model::getPosY() const
 {
 	return this->y;
 }
@@ -72,7 +74,7 @@ Model::Model()
 	this->theta = 0;
 	this->omega = 0;
 
-    VectorXf temp(5);
+    VectorXd temp(5);
 	//Dont consider acceleration yet
 	//temp << this->x, this->y, this->Vx, this->Vy, this->Ax, this->Ay;
 	temp << this->x, this->y, this->speed, this->theta, this->omega;
@@ -80,9 +82,9 @@ Model::Model()
     /* update the initial state */
     this->state = temp;
 
-	float Q1 = 1;
-	float Q2 = 1;
-	Matrix4f noiseMatrix;
+	double Q1 = 1;
+	double Q2 = 1;
+	Matrix4d noiseMatrix;
 	noiseMatrix << (Q1*(pow(deltaT, 3)) / 3),  0,						  (Q1*(pow(deltaT, 2)) / 2), 0,
 					0,						   (Q2*(pow(deltaT, 3)) / 3), 0,						 (Q2*(pow(deltaT, 2)) / 2),
 					(Q1*(pow(deltaT, 2)) / 2), 0,					 	  Q1*deltaT,				 0,
@@ -97,10 +99,10 @@ Model::~Model(void)
 }
 
 // T is the sampling rate we want to use.
-MatrixXf Model::constVeloModel(float T)
+MatrixXd Model::constVeloModel(double T)
 {
 	
-	MatrixXf motionMatrix(6,6);
+	MatrixXd motionMatrix(6,6);
 	motionMatrix << 1, 0, T, 0, 0, 0,  // Position
   					0, 1, 0, T, 0, 0,
   					0, 0, 1, 0, 0, 0,  // Velocity
@@ -130,18 +132,19 @@ std::ostream& operator<<(std::ostream &strm, const Model &model)
 		<< " , Speed = " << model.speed << ")" << endl << endl;
 }
 
-Eigen::Vector3f Model::updateState()
+Eigen::Vector3d Model::updateState()
 {
-	updateX();
-	updateY();
-	updateTheta();
-	cout << "T = " << this->theta << endl << endl;
+	double T = updateTheta();
+	double X = updateX();
+	double Y = updateY();
+	
+	cout << endl;
 
-	Vector3f ret(3);
-	ret << this->x, this->y, this->theta;
+	Vector3d ret(3);
+	ret << X, Y, T;
 	return ret;
 }
-void Model::updateX()
+double Model::updateX()
 {
 	cout << "Updating X" << endl;
 	cout << this->x << " + " << deltaT << " * " << this->speed << " * cos(" << this->theta << ") = ";
@@ -149,14 +152,15 @@ void Model::updateX()
 	this->x += 0.5 * this->speed * cos(this->theta);
 
 	cout << this->x << endl;
+	return this->x;
 }
 /*
-void Model::updateXdot(float vLongi)
+void Model::updateXdot(double vLongi)
 {
-	float U = vLongi;
+	double U = vLongi;
 	this->Sx = U * cos(getTheta());
 }*/
-void Model::updateY()
+double Model::updateY()
 {
 	cout << "Updating Y" << endl;
 	cout << this->y << " + " << deltaT << " * " << this->speed << " * sin(" << this->theta << ") = ";
@@ -164,15 +168,27 @@ void Model::updateY()
 	this->y += deltaT * this->speed * sin(this->theta);
 
 	cout << this->y << endl;
+	return this->y;
 }
 /*
-void Model::updateYdot(float vLongi)
+void Model::updateYdot(double vLongi)
 {
-	float U = vLongi;
+	double U = vLongi;
 	this->Sy = U * sin(getTheta());
 }*/
 
-void Model::updateTheta()
+double Model::updateTheta()
 {
-	this->theta += (deltaT * getOmega());
+	cout << "Updating theta" << endl;
+	cout << this->theta << " + " << deltaT << " * (" << this->speed << " / " << wheelBase << ")" << " * tan(" << this->omega << ") = ";
+
+	this->theta += deltaT * (this->speed / wheelBase) * tan(this->omega);
+
+	cout << this->theta << endl;
+	return this->theta;
+}
+
+double Model::degrees_to_radian(double deg)
+{
+	return deg * M_PI / 180.0;
 }

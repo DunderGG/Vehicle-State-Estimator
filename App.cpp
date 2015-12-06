@@ -26,20 +26,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
-//#include "ExtendedKalmanFilter.hpp"
-//#include "UnscentedKalmanFilter.hpp"
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
 //#include "eigen/Eigen/Dense"
 
-/*
-	The base case is as follows:
-	(1)	App creates a Sensor object. The Sensor object creates the track.
-	(2)	App creates a Gaussian object. For each point (x,y) on the track,
-			App calls getNoise(point, nrOfPoints) and expects back the generated noise.
-	(3)	???
-*/
 
 using namespace std;
 using namespace Eigen;
@@ -48,17 +39,56 @@ int main()
 {
     int i;
 	Model model;
-	model.setSpeed(50.0f);
+	Vector3d state;
+
+	ifstream headFile("headingShorter.txt");
+	ifstream velFile("velocity.txt");
+	ifstream omegaFile("omega.txt");
+	ifstream xFile("x.txt");
+	ifstream yFile("y.txt");
+
+	ofstream resultFile("result.txt");
+
+	string headLine, velLine, omLine, xLine, yLine;
+	double heading, velocity, omega, x, y;
 	
-	for (i = 0; i < 100; i++)
+	if (headFile.is_open())
 	{
-		model.updateState();
-		if (i % 10 == 0)
-			if(i < 50)
-				model.setTheta(model.getTheta() + 10.0f);
-			else
-				model.setTheta(model.getTheta() - 20.0f);
-	}	
+		cout << "Reading a line..." << endl;
+		
+		while (getline(headFile, headLine))
+		{
+			getline(velFile, velLine);
+			getline(omegaFile, omLine);
+			getline(xFile, xLine);
+			getline(yFile, yLine);
+			
+			velocity = strtod(velLine.c_str(), NULL);
+			heading = strtod(headLine.c_str(), NULL);
+			omega = strtod(omLine.c_str(), NULL);
+			x = strtod(xLine.c_str(), NULL);
+			y = strtod(yLine.c_str(), NULL);
+			
+			model.setTheta(heading);
+			model.setSpeed(velocity);
+			model.setOmega(omega);
+
+			state = model.updateState();
+
+			cout << endl << "Computed: X = " << state(0) << "\t, Y = " << state(1) << endl
+						 << "Measured: X = " << x	     << "\t, Y = " << y		   << endl << endl;
+
+			resultFile << state(0) << "\t" << state(1) << "\t" << x << "\t" << y << "\n";
+		}
+
+	}
+
+	headFile.close();
+	velFile.close();
+	omegaFile.close();
+	xFile.close();
+	yFile.close();
+
 	
 	Sensor sensor;
 	int lineNumber = 0;

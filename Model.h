@@ -9,40 +9,38 @@ class Model
 {
 public:
 
-	void setPos(float x, float y);	
+	void setPos(double x, double y);	
 	
 	//SETTERS
-	void setSpeed(float s);
-	void setAcc(float Ax, float Ay);
-	void setTheta(float theta);
-	void setOmega(float omega);
+	void setSpeed(double s);
+	void setTheta(double theta);
+	void setOmega(double omega);
 	
 	//GETTERS
-	float getTheta() const;
-	float getOmega() const;
-	float getPosX() const;
-	float getPosY() const;
-	float getSpeed() const;
-	float getAccX() const;
-	float getAccY() const;
+	double getTheta() const;
+	double getOmega() const;
+	double getPosX() const;
+	double getPosY() const;
+	double getSpeed() const;
 
-	Eigen::Vector3f updateState();
+	Eigen::Vector3d updateState();
     
-	void updateX();
-	void updateXdot(float vLongi);
-	void updateY();
-	void updateYdot(float vLongi);
-	void updateTheta();
+	double updateX();
+	void updateXdot(double);
+	double updateY();
+	void updateYdot(double);
+	double updateTheta();
 
-	Eigen::MatrixXf constVeloModel(float T);
+	Eigen::MatrixXd constVeloModel(double T);
 
 	Model();
 	~Model();
 
+	double degrees_to_radian(double);
 private:
-	float x, y, speed, theta, omega;
+	double x, y, speed, theta, omega;
     
-    Eigen::VectorXf state;
+    Eigen::VectorXd state;
 
 	friend std::ostream& operator<<(std::ostream&, const Model&);
 };
