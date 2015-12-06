@@ -6,7 +6,7 @@
 using namespace Eigen;
 using namespace std;
 
-#define deltaT 0.5f
+#define deltaT 0.5
 
 /*
 	Lecture notes: https://pingpong.chalmers.se/courseId/4620/node.do?id=2646568&ts=1447065023559&u=33775507
@@ -145,8 +145,8 @@ void Model::updateX()
 {
 	cout << "Updating X" << endl;
 	cout << this->x << " + " << deltaT << " * " << this->speed << " * cos(" << this->theta << ") = ";
-
-	this->x += deltaT * this->speed * cos(this->theta);
+    
+	this->x += 0.5 * this->speed * cos(this->theta);
 
 	cout << this->x << endl;
 }

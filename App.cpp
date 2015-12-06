@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
-#include "ExtendedKalmanFilter.hpp"
-#include <UnscentedKalmanFilter.hpp>
+//#include "ExtendedKalmanFilter.hpp"
+//#include "UnscentedKalmanFilter.hpp"
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
@@ -46,10 +46,11 @@ using namespace Eigen;
 
 int main()
 {
+    int i;
 	Model model;
 	model.setSpeed(50.0f);
 	
-	for (int i = 0; i < 100; i++)
+	for (i = 0; i < 100; i++)
 	{
 		model.updateState();
 		if (i % 10 == 0)

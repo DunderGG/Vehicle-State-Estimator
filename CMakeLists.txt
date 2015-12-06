@@ -13,13 +13,11 @@ set (SOURCE_FILES
 		Gaussian.h
 		Model.h
 		Sensor.h
-		Test.h
 
 		App.cpp
 		Gaussian.cpp
 		Model.cpp
-		Sensor.cpp
-		Test.cpp )
+		Sensor.cpp )
 
 # add executable
 add_executable (vehicle-state-estimator ${SOURCE_FILES})
