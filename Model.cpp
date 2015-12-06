@@ -149,7 +149,7 @@ double Model::updateX()
 	cout << "Updating X" << endl;
 	cout << this->x << " + " << deltaT << " * " << this->speed << " * cos(" << this->theta << ") = ";
     
-	this->x += 0.5 * this->speed * cos(this->theta);
+	this->x += deltaT * this->speed * cos(this->theta);
 
 	cout << this->x << endl;
 	return this->x;

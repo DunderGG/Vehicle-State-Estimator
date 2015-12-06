@@ -37,7 +37,6 @@ using namespace Eigen;
 
 int main()
 {
-    int i;
 	Model model;
 	Vector3d state;
 
