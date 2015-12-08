@@ -18,6 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *	**************************
 */
 
+/*Kalman stuff from mherb*/
+#include "SystemModel.hpp"
+//#include "OrientationMeasurementModel.hpp"
+//#include "PositionMeasurementModel.hpp"
+
+#include <ExtendedKalmanFilter.hpp>
+#include <UnscentedKalmanFilter.hpp>
+
+/* Regular stuff*/
 #include <iostream>
 #include <cstdio>
 #include <vector>
@@ -26,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Model.h" 				// model
 #include "Sensor.h" 			// sensor
 #include "Gaussian.h"
+
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
@@ -39,8 +49,9 @@ int main()
 {
 	Model model;
 	Vector3d state;
+	Gaussian gaussian;
 
-	ifstream headFile("headingShorter.txt");
+	ifstream headFile("heading.txt");
 	ifstream velFile("velocity.txt");
 	ifstream omegaFile("omega.txt");
 	ifstream xFile("x.txt");
@@ -50,36 +61,34 @@ int main()
 
 	string headLine, velLine, omLine, xLine, yLine;
 	double heading, velocity, omega, x, y;
-	
+
 	if (headFile.is_open())
 	{
-		cout << "Reading a line..." << endl;
-		
-		while (getline(headFile, headLine))
+		while (getline(velFile, velLine))
 		{
-			getline(velFile, velLine);
+			//getline(headFile, headLine);
 			getline(omegaFile, omLine);
 			getline(xFile, xLine);
 			getline(yFile, yLine);
-			
+
 			velocity = strtod(velLine.c_str(), NULL);
-			heading = strtod(headLine.c_str(), NULL);
+			//heading = strtod(headLine.c_str(), NULL);
 			omega = strtod(omLine.c_str(), NULL);
 			x = strtod(xLine.c_str(), NULL);
 			y = strtod(yLine.c_str(), NULL);
-			
-			model.setTheta(heading);
+
+			//model.setTheta(heading);
 			model.setSpeed(velocity);
 			model.setOmega(omega);
 
+			//PREDICT NEXT STATE USING MOTION MODEL
 			state = model.updateState();
 
-			cout << endl << "Computed: X = " << state(0) << "\t, Y = " << state(1) << endl
-						 << "Measured: X = " << x	     << "\t, Y = " << y		   << endl << endl;
+			//cout << endl << "Computed: X = " << state(0) << "\t, Y = " << state(1) << endl
+			//			   << "Measured: X = " << x	       << "\t, Y = " << y		 << endl << endl;
 
 			resultFile << state(0) << "\t" << state(1) << "\t" << x << "\t" << y << "\n";
 		}
-
 	}
 
 	headFile.close();
@@ -88,20 +97,22 @@ int main()
 	xFile.close();
 	yFile.close();
 
-	
+
 	Sensor sensor;
 	int lineNumber = 0;
 
 	sensor.openFile("gps-2column.txt");
 	//pair<float, float> position = sensor.readFile(lineNumber++);
-	for (int i = 0; i < 100; i++)
+	for (int i = 1; i <= 100; i++)
 	{
 		//pair<float, float> position = sensor.readFile();
 
 		//cout << "X = " << position.first << ",\t Y = " << position.second << endl;
+
+		cout << i << ", " << Gaussian::gaussianRandNum(70, 10) << endl;
 	}
 
-	
 
-    return 0;
+
+	return 0;
 }

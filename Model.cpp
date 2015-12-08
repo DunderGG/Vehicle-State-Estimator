@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "eigen/Eigen/Dense"
 #include <cmath>
+#include "Gaussian.h"
 
 using namespace Eigen;
 using namespace std;
@@ -20,7 +21,7 @@ using namespace std;
 void Model::setTheta(double t)
 {
 	this->theta = t;
-	cout << "Theta set to " << this->theta << endl;
+	//cout << "Theta set to " << this->theta << endl;
 }
 double Model::getTheta() const
 {
@@ -30,7 +31,7 @@ double Model::getTheta() const
 void Model::setOmega(double o)
 {
 	this->omega = o;
-	cout << "Omega set to " << this->omega << endl;
+	//cout << "Omega set to " << this->omega << endl;
 }
 double Model::getOmega() const
 {
@@ -40,7 +41,7 @@ double Model::getOmega() const
 void Model::setSpeed(double s)
 {
 	this->speed = s;
-	cout << "Speed set to " << this->speed << endl;
+	//cout << "Speed set to " << this->speed << endl;
 }
 
 double Model::getSpeed() const
@@ -138,20 +139,18 @@ Eigen::Vector3d Model::updateState()
 	double X = updateX();
 	double Y = updateY();
 	
-	cout << endl;
-
 	Vector3d ret(3);
 	ret << X, Y, T;
 	return ret;
 }
 double Model::updateX()
 {
-	cout << "Updating X" << endl;
-	cout << this->x << " + " << deltaT << " * " << this->speed << " * cos(" << this->theta << ") = ";
+	//cout << "Updating X" << endl;
+	//cout << this->x << " + " << deltaT << " * " << this->speed << " * cos(" << this->theta << ") = ";
     
 	this->x += deltaT * this->speed * cos(this->theta);
 
-	cout << this->x << endl;
+	//cout << this->x << endl;
 	return this->x;
 }
 /*
@@ -162,12 +161,12 @@ void Model::updateXdot(double vLongi)
 }*/
 double Model::updateY()
 {
-	cout << "Updating Y" << endl;
-	cout << this->y << " + " << deltaT << " * " << this->speed << " * sin(" << this->theta << ") = ";
+	//cout << "Updating Y" << endl;
+	//cout << this->y << " + " << deltaT << " * " << this->speed << " * sin(" << this->theta << ") = ";
 
 	this->y += deltaT * this->speed * sin(this->theta);
 
-	cout << this->y << endl;
+	//cout << this->y << endl;
 	return this->y;
 }
 /*
@@ -179,12 +178,12 @@ void Model::updateYdot(double vLongi)
 
 double Model::updateTheta()
 {
-	cout << "Updating theta" << endl;
-	cout << this->theta << " + " << deltaT << " * (" << this->speed << " / " << wheelBase << ")" << " * tan(" << this->omega << ") = ";
+	//cout << "Updating theta" << endl;
+	//cout << this->theta << " + " << deltaT << " * (" << this->speed << " / " << wheelBase << ")" << " * tan(" << this->omega << ") = ";
 
 	this->theta += deltaT * (this->speed / wheelBase) * tan(this->omega);
 
-	cout << this->theta << endl;
+	//cout << this->theta << endl;
 	return this->theta;
 }
 

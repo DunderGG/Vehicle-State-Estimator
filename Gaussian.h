@@ -14,7 +14,10 @@ public:
 
 	double computeGaussian (double mu, double sigma);
 
-	std::vector<std::pair<double,double>> polarFormBoxMuller(int nrOfNums);
+	static std::vector<double> polarFormBoxMuller(int nrOfNums);
+	static double polarFormBoxMuller();
+	static double gaussianRandNum(int, int);
+	static double gaussianRandNum();
 
 private:
 

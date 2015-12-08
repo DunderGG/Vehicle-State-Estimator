@@ -30,12 +30,6 @@ vector<pair<double, double>> Gaussian::getNoise(pair<double,double> point)
 
 double Gaussian::computeGaussian(double mu, double sigma)
 {
-	/*
-		TODO: Change so that it returns the vector "points", containing the noise.
-	*/
-	//A vector cointaining all the points representing the noise
-	vector<pair<int, int>> points;
-
     const double epsilon = std::numeric_limits<double>::min();
 	const double two_pi = 2.0*M_PI;
     
@@ -61,8 +55,6 @@ double Gaussian::computeGaussian(double mu, double sigma)
     z1 = sqrt(-2.0 * log(u1)) * sin(two_pi * u2);
 	cout << "z0 = " << z0 << "   z1 = " << z1 << endl;
 
-	
-
     return z0 * sigma + mu;
 }
 
@@ -72,39 +64,46 @@ double Gaussian::computeGaussian(double mu, double sigma)
 	       and: http://stackoverflow.com/questions/10047215/uniform-random-number-generator-in-c
 	Apparently both faster and more robust than the above.
 */
-vector<pair<double, double>> Gaussian::polarFormBoxMuller(int nrOfNums)
+vector<double> Gaussian::polarFormBoxMuller(int nrOfNums)
 {
 	//float x1, x2, w, y1, y2;
 
 	mt19937 eng(chrono::high_resolution_clock::now().time_since_epoch().count());
 	uniform_real_distribution<double> dist(0, 1);
-	double rand1, rand2;
-	vector<pair<double, double>> randNums;
+	double rand;
+	vector<double> randNums;
 	for (int i = 0; i < nrOfNums; i++)
 	{
-		rand1 = dist(eng);
-		rand2 = dist(eng);
-		randNums.push_back(make_pair(rand1,rand2));
-		cout << "rand1: " << rand1 << endl << "rand2: " << rand2 << endl << endl;
+		rand = dist(eng);
+		randNums.push_back(rand);
+		cout << "rand1: " << rand << endl;
 	}
 
 	assert(randNums.size() == nrOfNums && "Didn't generate correct number of numbers");
 	
-
-	/*
-	do
-	{
-		x1 = 2.0 * rand() - 1.0;
-		x2 = 2.0 * rand() - 1.0;
-		w  = x1 * x1 + x2 * x2;
-	} while (w >= 1.0);
-
-	w = sqrt( (-2.0 * log(w)) / w );
-
-	y1 = x1 * w;
-	y2 = x2 * w;
-	*/
 	return randNums;
+}
+double Gaussian::polarFormBoxMuller()
+{
+	mt19937 eng(chrono::high_resolution_clock::now().time_since_epoch().count());
+	uniform_real_distribution<double> dist(0, 1);
+	
+	return dist(eng);
+}
+
+double Gaussian::gaussianRandNum(int mean, int deviation)
+{
+	mt19937 eng(chrono::high_resolution_clock::now().time_since_epoch().count());
+	std::normal_distribution<double> dist(mean, deviation);
+
+	return dist(eng);
+}
+double Gaussian::gaussianRandNum()
+{
+	mt19937 eng(chrono::high_resolution_clock::now().time_since_epoch().count());
+	std::normal_distribution<double> dist(0,1);
+
+	return dist(eng);
 }
 
 Gaussian::~Gaussian()

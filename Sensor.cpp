@@ -14,20 +14,20 @@ using namespace std;
 
 Sensor::Sensor()
 {
-	
+
 	//                                                                                ________________________
 	//         GROUND TRUTH / TEST TRACK                                     ________/                        \__________     
 	//        Will be passed to Gaussian generator    ______________________/                                            \________
 	//        to generate noise around it    ________/                                                                            \_______
 	//        ______________________________/                                                                                             \_______
-    track = { 	{ 0,0 }, { 1,0 }, { 2,0 }, { 3,0 }, 
-    			{ 4,1 }, { 5,2 }, { 6,2 }, { 7,2 }, 
-    			{ 8,3 }, { 9,4 }, { 10,4 },{ 11,4 },
-    			{ 12,3 },{ 13,2 },{ 14,1 },{ 15,0 } };
+	track = { { 0,0 },{ 1,0 },{ 2,0 },{ 3,0 },
+	{ 4,1 },{ 5,2 },{ 6,2 },{ 7,2 },
+	{ 8,3 },{ 9,4 },{ 10,4 },{ 11,4 },
+	{ 12,3 },{ 13,2 },{ 14,1 },{ 15,0 } };
 }
 
 int Sensor::randomData()
-{	
+{
 	return 0;
 }
 
@@ -53,19 +53,19 @@ void Sensor::openFile(string filepath)
 	cout << "Datafile \"" << filepath << "\" opened" << endl;
 }
 
-pair<float,float> Sensor::readFile ()
+pair<float, float> Sensor::readFile()
 {
-    string line;
+	string line;
 	double xVal = 0;
 	double yVal = 0;
-    
-    //ifstream inputFile ("../gps-2column.txt");
-    
-    if (this->datafile.is_open())
-    {
+
+	//ifstream inputFile ("../gps-2column.txt");
+
+	if (this->datafile.is_open())
+	{
 		//cout << "Reading a line..." << endl;
 		getline(this->datafile, line);
-		
+
 		std::stringstream   linestream(line);
 		std::string         value;
 
@@ -74,7 +74,7 @@ pair<float,float> Sensor::readFile ()
 		{
 			if (column == 0)
 				xVal = strtod(value.c_str(), NULL);
-			else 
+			else
 			{
 				yVal = strtod(value.c_str(), NULL);
 			}
@@ -82,15 +82,15 @@ pair<float,float> Sensor::readFile ()
 			column++;
 		}
 
-        //cout << setiosflags (ios::fixed) << setprecision(10) << xVal << "," << yVal << std::endl;
-        
-    }
+		//cout << setiosflags (ios::fixed) << setprecision(10) << xVal << "," << yVal << std::endl;
 
-    //THIS SHOULD CONTAIN THE X AND Y VALUES WE READ
+	}
+
+	//THIS SHOULD CONTAIN THE X AND Y VALUES WE READ
 	return make_pair(xVal, yVal);
 }
 
-pair<float, float> Sensor::readFile (int linenumber)
+pair<float, float> Sensor::readFile(int linenumber)
 {
 	string line;
 
@@ -123,6 +123,6 @@ pair<float, float> Sensor::readFile (int linenumber)
 		}
 	}
 
-    //THIS SHOULD CONTAIN THE X AND Y VALUES WE READ
+	//THIS SHOULD CONTAIN THE X AND Y VALUES WE READ
 	return make_pair(0.0f, 0.0f);
 }
