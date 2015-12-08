@@ -139,8 +139,10 @@ Eigen::Vector3d Model::updateState()
 	double X = updateX();
 	double Y = updateY();
 	
+	double noise = Gaussian::gaussianRandNum() * 0.1;
+
 	Vector3d ret(3);
-	ret << X, Y, T;
+	ret << X+noise, Y+noise, T+noise;
 	return ret;
 }
 double Model::updateX()

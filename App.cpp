@@ -79,7 +79,10 @@ int main()
 		//cout << endl << "Computed: X = " << state(0) << "\t, Y = " << state(1) << endl
 		//			   << "Measured: X = " << x	       << "\t, Y = " << y		 << endl << endl;
 
-		resultFile << state(0) << "\t" << state(1) << "\t" << xLine << "\t" << yLine << "\n";
+		//Decrease the number of data points, graphs are too dense.
+		if(linesRead % 5 == 0)
+			resultFile << state(0) << "\t" << state(1) << "\t" << xLine << "\t" << yLine << "\n";
+
 		linesRead++;
 		x = strtod(xLine.c_str(), NULL);
 		y = strtod(yLine.c_str(), NULL);
