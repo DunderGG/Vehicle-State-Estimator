@@ -86,7 +86,7 @@ int Sensor::readFile()
 			return 0; //We ran out of lines
 
 					  //Convert from the string we read to a double we can use.
-		this->velocity = strtod(velLine.c_str(), NULL);
+		this->speed = strtod(velLine.c_str(), NULL);
 		this->omega = strtod(omLine.c_str(), NULL);
 
 		//Everything went fine
@@ -97,7 +97,7 @@ int Sensor::readFile()
 }
 double Sensor::getVelocity()
 {
-	return this->velocity;
+	return this->speed;
 }
 double Sensor::getOmega()
 {

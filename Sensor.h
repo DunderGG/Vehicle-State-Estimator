@@ -30,7 +30,7 @@ private:
 	std::vector<std::pair<double, double>> track;
 	std::ifstream datafile, velFile, omegaFile;
 
-	double omega = 0, velocity = 0;
+	double omega = 0, speed = 0;
 
 };
 

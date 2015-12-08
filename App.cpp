@@ -32,15 +32,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <string>
 #include <fstream>
-#include "Model.h" 				// model
-#include "Sensor.h" 			// sensor
+
+/* Our headers */
+#include "Model.h" 				
+#include "Sensor.h" 			
 #include "Gaussian.h"
 
 
 // TO COMPILE WITH EIGEN
 //g++ -I ~/Dropbox/Projects/C++/Vehicle-State-Estimator/eigen App.cpp Model.cpp Sensor.cpp Gaussian.cpp -o app -std=gnu++11
-//#include "eigen/Eigen/Dense"
-
 
 using namespace std;
 using namespace Eigen;
@@ -60,7 +60,10 @@ int main()
 	ofstream resultFile("result.txt");
 
 	string xLine, yLine;
-
+	double x = 0, 
+		   y = 0, 
+		   xTotal = 0, 
+		   yTotal = 0;
 	int linesRead = 0;
 	while (sensor.readFile() == 1)
 	{
@@ -78,15 +81,19 @@ int main()
 
 		resultFile << state(0) << "\t" << state(1) << "\t" << xLine << "\t" << yLine << "\n";
 		linesRead++;
+		x = strtod(xLine.c_str(), NULL);
+		y = strtod(yLine.c_str(), NULL);
+
+		xTotal += pow((state(0) - x), 2);
+		yTotal += pow((state(1) - y), 2);
 	}
+	cout << "X error: " << xTotal / linesRead << endl;
+	cout << "Y error: " << yTotal / linesRead << endl;
+
 	sensor.closeFile();
 	cout << "Nr of lines read: " << linesRead << endl;
 	xFile.close();
 	yFile.close();
-
-
-
-	int lineNumber = 0;
 
 	//sensor.openFile("gps-2column.txt");
 	//pair<float, float> position = sensor.readFile(lineNumber++);
