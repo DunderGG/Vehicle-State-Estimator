@@ -50,66 +50,53 @@ int main()
 	Model model;
 	Vector3d state;
 	Gaussian gaussian;
+	Sensor sensor;
 
-	ifstream headFile("heading.txt");
-	ifstream velFile("velocity.txt");
-	ifstream omegaFile("omega.txt");
+	sensor.openFile("velocity.txt", "omega.txt");
+
 	ifstream xFile("x.txt");
 	ifstream yFile("y.txt");
 
 	ofstream resultFile("result.txt");
 
-	string headLine, velLine, omLine, xLine, yLine;
-	double heading, velocity, omega, x, y;
+	string xLine, yLine;
 
-	if (headFile.is_open())
+	int linesRead = 0;
+	while (sensor.readFile() == 1)
 	{
-		while (getline(velFile, velLine))
-		{
-			//getline(headFile, headLine);
-			getline(omegaFile, omLine);
-			getline(xFile, xLine);
-			getline(yFile, yLine);
+		getline(xFile, xLine);
+		getline(yFile, yLine);
 
-			velocity = strtod(velLine.c_str(), NULL);
-			//heading = strtod(headLine.c_str(), NULL);
-			omega = strtod(omLine.c_str(), NULL);
-			x = strtod(xLine.c_str(), NULL);
-			y = strtod(yLine.c_str(), NULL);
+		model.setSpeed(sensor.getVelocity());
+		model.setOmega(sensor.getOmega());
 
-			//model.setTheta(heading);
-			model.setSpeed(velocity);
-			model.setOmega(omega);
+		//PREDICT NEXT STATE USING MOTION MODEL
+		state = model.updateState();
 
-			//PREDICT NEXT STATE USING MOTION MODEL
-			state = model.updateState();
+		//cout << endl << "Computed: X = " << state(0) << "\t, Y = " << state(1) << endl
+		//			   << "Measured: X = " << x	       << "\t, Y = " << y		 << endl << endl;
 
-			//cout << endl << "Computed: X = " << state(0) << "\t, Y = " << state(1) << endl
-			//			   << "Measured: X = " << x	       << "\t, Y = " << y		 << endl << endl;
-
-			resultFile << state(0) << "\t" << state(1) << "\t" << x << "\t" << y << "\n";
-		}
+		resultFile << state(0) << "\t" << state(1) << "\t" << xLine << "\t" << yLine << "\n";
+		linesRead++;
 	}
-
-	headFile.close();
-	velFile.close();
-	omegaFile.close();
+	sensor.closeFile();
+	cout << "Nr of lines read: " << linesRead << endl;
 	xFile.close();
 	yFile.close();
 
 
-	Sensor sensor;
+
 	int lineNumber = 0;
 
-	sensor.openFile("gps-2column.txt");
+	//sensor.openFile("gps-2column.txt");
 	//pair<float, float> position = sensor.readFile(lineNumber++);
-	for (int i = 1; i <= 100; i++)
+	//for (int i = 1; i <= 100; i++)
 	{
 		//pair<float, float> position = sensor.readFile();
 
 		//cout << "X = " << position.first << ",\t Y = " << position.second << endl;
 
-		cout << i << ", " << Gaussian::gaussianRandNum(70, 10) << endl;
+		//cout << i << ", " << Gaussian::gaussianRandNum(70, 10) << endl;
 	}
 
 

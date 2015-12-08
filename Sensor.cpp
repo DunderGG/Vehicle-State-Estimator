@@ -15,7 +15,7 @@ using namespace std;
 Sensor::Sensor()
 {
 
-	//                                                                                ________________________
+	//    NO LONGER USED, MAYBE IN FUTURE?                                            ________________________
 	//         GROUND TRUTH / TEST TRACK                                     ________/                        \__________     
 	//        Will be passed to Gaussian generator    ______________________/                                            \________
 	//        to generate noise around it    ________/                                                                            \_______
@@ -37,59 +37,73 @@ vector<pair<double, double>> Sensor::getTrack()
 	return track;
 }
 
+/*
+The destructor
+Close all files.
+*/
 Sensor::~Sensor()
 {
-	cout << "Destroying Sensors object" << endl;
+	cout << "Destroying Sensor object" << endl;
 
 	this->datafile.close();
-	cout << "datafile closed" << endl;
+	this->velFile.close();
+	this->omegaFile.close();
 }
 
-void Sensor::openFile(string filepath)
+/*
+First file is velocity file, second is omega.
+Maybe everything should be in one file?
+*/
+void Sensor::openFile(string filepath1, string filepath2)
 {
-	//We open the file (input mode) 
+	//We open the files (input mode) 
 	// and close it when the Sensor object is destroyed.
-	this->datafile.open(filepath, ios::in);
-	cout << "Datafile \"" << filepath << "\" opened" << endl;
-}
+	this->velFile.open(filepath1, ios::in);
+	this->omegaFile.open(filepath2, ios::in);
 
-pair<float, float> Sensor::readFile()
+}
+void Sensor::closeFile()
 {
-	string line;
-	double xVal = 0;
-	double yVal = 0;
+	//We open the files (input mode) 
+	// and close it when the Sensor object is destroyed.
+	this->velFile.close();
+	this->omegaFile.close();
 
-	//ifstream inputFile ("../gps-2column.txt");
-
-	if (this->datafile.is_open())
-	{
-		//cout << "Reading a line..." << endl;
-		getline(this->datafile, line);
-
-		std::stringstream   linestream(line);
-		std::string         value;
-
-		int column = 0;
-		while (getline(linestream, value, ',') && (column < 2))
-		{
-			if (column == 0)
-				xVal = strtod(value.c_str(), NULL);
-			else
-			{
-				yVal = strtod(value.c_str(), NULL);
-			}
-
-			column++;
-		}
-
-		//cout << setiosflags (ios::fixed) << setprecision(10) << xVal << "," << yVal << std::endl;
-
-	}
-
-	//THIS SHOULD CONTAIN THE X AND Y VALUES WE READ
-	return make_pair(xVal, yVal);
 }
 
+int Sensor::readFile()
+{
+	//This is the input to our estimator (speed and steering)
+	string velLine, omLine;
+	double velocity, omega;
+
+	//Make sure both files are open.
+	if (this->velFile.is_open() && this->omegaFile.is_open())
+	{
+		if (!getline(velFile, velLine))
+			return 0; //We ran out of lines
+		if (!getline(omegaFile, omLine))
+			return 0; //We ran out of lines
+
+					  //Convert from the string we read to a double we can use.
+		this->velocity = strtod(velLine.c_str(), NULL);
+		this->omega = strtod(omLine.c_str(), NULL);
+
+		//Everything went fine
+		return 1;
+	}
+	else  //Something went horribly wrong
+		return 0;
+}
+double Sensor::getVelocity()
+{
+	return this->velocity;
+}
+double Sensor::getOmega()
+{
+	return this->omega;
+}
+//Not currently used
 pair<float, float> Sensor::readFile(int linenumber)
 {
 	string line;

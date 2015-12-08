@@ -17,15 +17,20 @@ public:
 
 	std::vector<std::pair<double, double>> getTrack();
 
-	std::pair<float, float> readFile();
+	int readFile();
 	std::pair<float, float> readFile(int linenumber);
 
-	void openFile(std::string filepath);
+	void openFile(std::string, std::string);
+	void closeFile();
+
+	double getOmega();
+	double getVelocity();
 
 private:
 	std::vector<std::pair<double, double>> track;
-	std::ifstream datafile;
+	std::ifstream datafile, velFile, omegaFile;
 
+	double omega = 0, velocity = 0;
 
 };
 
